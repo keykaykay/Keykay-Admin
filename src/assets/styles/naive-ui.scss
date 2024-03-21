@@ -1,0 +1,8 @@
+.n-scrollbar-rail {
+  &.n-scrollbar-rail--horizontal {
+    --n-scrollbar-height: 4px;
+  }
+  &.n-scrollbar-rail--vertical{
+    --n-scrollbar-width: 4px;
+  }
+}

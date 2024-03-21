@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/logo.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%- title %></title>
+    <script>
+      (function () {
+        const prefersDark
+    = window.matchMedia
+    && window.matchMedia('(prefers-color-scheme: dark)').matches
+        const setting = localStorage.getItem('vueuse-color-scheme') || 'auto'
+        if (setting === 'dark' || (prefersDark && setting !== 'light'))
+          document.documentElement.classList.toggle('dark', true)
+      })()
+    </script>
+  </head>
+  <body class="font-sans text-slate-950 bg-slate-50 dark:text-slate-50 dark:bg-slate-950">
+    <div id="app">
+      <!-- <style>
+        html, body {
+          margin: 0;
+          padding: 0;
+        }
+        .app-loading {
+          display: flex;
+          width: 100%;
+          height: 100%;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          background-color: #fff;
+        }
+        .dark .app-loading {
+          background-color: #1a202c;
+        }
+        .app-loading .app-loading-wrap {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          display: flex;
+          transform: translate3d(-50%, -50%, 0);
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+        }
+        .app-loading-title {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          font-size: 26px;
+          font-weight: 700;
+        }
+        .app-loading-title .loading {
+          margin-top: 10px;
+          display: flex;
+        }
+        .app-loading-title img {
+          width: 60px;
+          height: 60px;
+          margin-bottom: 5px;
+          animation-name: loading;
+          animation-duration: 2s;
+          animation-iteration-count: infinite;
+          animation-direction: linear;
+          animation-delay: 1.8s;
+        }
+        .loading .letter {
+          animation-name: loading;
+          animation-duration: 1.6s;
+          animation-iteration-count: infinite;
+          animation-direction: linear;
+          float: left;
+          color: #777;
+        }
+        .loading .l-0 {
+          animation-delay: 0.48s;
+        }
+        .loading .l-1 {
+          animation-delay: 0.6s;
+        }
+        .loading .l-2 {
+          animation-delay: 0.72s;
+        }
+        .loading .l-3 {
+          animation-delay: 0.84s;
+        }
+        .loading .l-4 {
+          animation-delay: 0.96s;
+        }
+        .loading .l-5 {
+          animation-delay: 1.08s;
+        }
+        .loading .l-6 {
+          animation-delay: 1.2s;
+        }
+        .loading .l-7 {
+          animation-delay: 1.32s;
+        }
+        .loading .l-8 {
+          animation-delay: 1.44s;
+        }
+        .loading .l-9 {
+          animation-delay: 1.56s;
+        }
+        .loading .l-10 {
+          animation-delay: 1.68s;
+        }
+        .loading .l-11 {
+          animation-delay: 1.80s;
+        }
+        .loading .l-12 {
+          animation-delay: 1.92s;
+        }
+        .loading .l-13 {
+          animation-delay: 2.04s;
+        }
+        .loading .l-14 {
+          animation-delay: 2.16s;
+        }
+        @keyframes loading {
+          0% {
+            opacity: 0;
+          }
+          100% {
+            opacity: 1;
+          }
+        }
+      </style>
+      <div class="app-loading">
+        <div class="app-loading-wrap">
+          <div class="app-loading-title">
+            <img src="/logo.svg" />
+            <div class="loading"><%- title %></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (function () {
+          const loadingEl = document.querySelector(
+            '#app>.app-loading>.app-loading-wrap>.app-loading-title>.loading',
+    )
+          let loadingContent = ''
+          for (const idx in loadingEl.textContent)
+      loadingContent += `<div class="l-${idx} letter">${loadingEl.textContent[idx]}</div>`
+  
+          loadingEl.innerHTML = loadingContent
+        })()
+      </script> -->
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

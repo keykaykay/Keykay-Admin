@@ -1,0 +1,83 @@
+@import url('./naive-ui.scss');
+@import url('./entry.scss');
+
+html, body, #app {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.25s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* 进入dark模式和退出dark模式时，两个图像的位置顺序正好相反 */
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2147483646;
+}
+
+/* 根据自己选择器修改 */
+[class="dark"]::view-transition-old(root) {
+  z-index: 2147483646;
+}
+[class="dark"]::view-transition-new(root) {
+  z-index: 1;
+}
+
+.multiTruncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+@mixin mScrollBar($length: 4px) {
+  &::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
+  &:hover::-webkit-scrollbar {
+    width: $length;
+    height: $length;
+  }
+  &::-webkit-scrollbar-track,
+  &::-webkit-scrollbar-corner {
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.25);
+  }
+  .dark &::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.25);
+  }
+  &::-webkit-scrollbar-button {
+    display: none;
+  }
+}
+
+.scrollBar {
+  @include mScrollBar();
+}
