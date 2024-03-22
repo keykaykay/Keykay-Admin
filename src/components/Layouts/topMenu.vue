@@ -50,6 +50,7 @@ useResizeObserver(menuRef, (entries) => {
     ref="menuRef"
     class="h-full flex items-center justify-center"
     mode="horizontal"
+    responsive
     :options="resultMenu"
     :value="appStore.activeKey"
     @update:value="handleChangeMenu"

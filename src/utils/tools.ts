@@ -17,25 +17,25 @@ export function renderIcon(name?: string) {
         }),
     })
 }
-export function renderLabel(name: string, path: string) {
+export function renderLabel(title: string, path: string, name: string) {
   return () =>
     h(
       'div',
       {
         class: 'flex items-center justify-center',
-        onclick: () => {
-          Router.push(path)
-        },
+        // onclick: () => {
+        //   Router.push({ name })
+        // },
       },
-      name,
+      title,
     )
 }
 
 export function handleRouteToMenu(item: AppRouteRecordRaw): MenuOption {
   const target = {
-    label: renderLabel(item.meta?.title || '', item.path || ''),
+    label: renderLabel(item.meta?.title || item.name as string, item.path || '', item.name as string),
     icon: renderIcon(item.meta?.icon),
-    key: item.path,
+    key: item.name as string,
     children: item.children?.map(handleRouteToMenu) || [],
   }
   if (item.children.length === 0)
@@ -49,7 +49,7 @@ export function handleRouteToMenu(item: AppRouteRecordRaw): MenuOption {
  * @param list - 原始路由列表。
  * @returns  菜单树结构。
  */
-function rawRouteToMenu(list: AppRouteRecordRaw[]) {
+function rawRouteToMenu(list: AppRouteRecordRaw[]): AppRouteRecordRaw[] {
   const tree: any[] = []
   const map: any = {}
   list.forEach((item) => {

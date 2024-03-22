@@ -14,7 +14,6 @@ const { isMobile } = useMobile()
     :content-style="{
       height: '100%',
     }"
-    inverted
     bordered
     collapse-mode="width"
     :collapsed-width="64"

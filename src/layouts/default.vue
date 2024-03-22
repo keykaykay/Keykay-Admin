@@ -6,11 +6,11 @@ const wrapRef = ref<HTMLElement>()
 const route = useRoute()
 const appStore = useAppStore()
 
-watch(() => route.path, () => {
-  appStore.activeKey = route.path
-}, {
-  immediate: true,
-})
+// watch(() => route.path, () => {
+//   appStore.activeKey = route.path
+// }, {
+//   immediate: true,
+// })
 </script>
 
 <template>
