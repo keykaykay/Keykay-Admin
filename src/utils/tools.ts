@@ -1,8 +1,7 @@
-import { NIcon } from 'naive-ui'
+import { NEllipsis, NIcon } from 'naive-ui'
 import type { MenuOption } from 'naive-ui'
 import generatedRoutes from 'virtual:generated-pages'
 import Lodash from 'lodash-es'
-import Router from '@/router'
 
 export function iconComp(icon: string) {
   return h('div', { class: icon })
@@ -17,27 +16,42 @@ export function renderIcon(name?: string) {
         }),
     })
 }
-export function renderLabel(title: string, path: string, name: string) {
+export function renderLabel(title: string) {
   return () =>
     h(
-      'div',
+      NEllipsis,
+      {},
       {
-        class: 'flex items-center justify-center',
-        // onclick: () => {
-        //   Router.push({ name })
-        // },
+        default: () => title,
       },
-      title,
     )
 }
 
 export function handleRouteToMenu(item: AppRouteRecordRaw): MenuOption {
-  const target = {
-    label: renderLabel(item.meta?.title || item.name as string, item.path || '', item.name as string),
-    icon: renderIcon(item.meta?.icon),
-    key: item.name as string,
-    children: item.children?.map(handleRouteToMenu) || [],
+  if ((item.children.length > 0 || item.pid === '/') && !item.meta?.icon) {
+    console.warn(`
+    请为${item.path}路由配置index.vue
+    <route lang="json5">
+    {
+      meta: {
+        title: '???',
+        icon: '???',
+        order: 1
+      }
+    }
+    </route>
+  `)
   }
+
+  const target = {
+    label: renderLabel(item.meta?.title || item.name as string || item.path as string),
+    // icon: renderIcon(item.meta?.icon || ''),
+    key: item.path as string,
+    children: item.children?.map(handleRouteToMenu) || [],
+  } as MenuOption
+  if (item.meta?.icon)
+    target.icon = renderIcon(item.meta.icon)
+
   if (item.children.length === 0)
     delete target.children
 
@@ -79,7 +93,7 @@ export function getMenus() {
     const paths = item.path!.split('/').filter(Boolean)
     item.paths = paths
     return item
-  }).filter(item => item.paths!.length && !item.paths!.includes(':all(.*)*')).sort((a, b) => (a?.meta?.order || Number.MAX_SAFE_INTEGER) - (b?.meta?.order || Number.MAX_SAFE_INTEGER))
+  }).filter(item => item.paths!.length && !item.path!.includes(':all(.*)*') && !item.path!.includes('/redirect/:path(.*)')).sort((a, b) => (a?.meta?.order || Number.MAX_SAFE_INTEGER) - (b?.meta?.order || Number.MAX_SAFE_INTEGER))
   const res = Lodash.cloneDeep(fileterRes).map((item) => {
     const paths = item.paths!
     item.id = `/${paths.join('/')}`
@@ -103,5 +117,16 @@ export function getMenus() {
   return {
     menuDatas: rawRouteToMenu(res),
     rawDatas: fileterRes,
+  }
+}
+
+export function handleRouteKeys(keys: string[], targetKeys: string[]) {
+  if (keys.length > 2) {
+    keys.pop()
+    targetKeys.push(keys.join('/'))
+    handleRouteKeys(keys, targetKeys)
+  }
+  else {
+    targetKeys.push(keys.join('/'))
   }
 }

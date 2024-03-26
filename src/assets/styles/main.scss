@@ -13,6 +13,10 @@ html, body, #app {
   box-sizing: border-box;
 }
 
+img, a {
+  -webkit-user-drag: none;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.25s ease;
@@ -81,3 +85,4 @@ html, body, #app {
 .scrollBar {
   @include mScrollBar();
 }
+

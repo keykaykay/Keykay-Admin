@@ -21,6 +21,8 @@ export default defineConfig({
   safelist: [
     'i-mdi:view-dashboard',
     'i-mdi:account',
+    'bg-#1e90ffFF',
+    'text-white',
     'hover:text-#1e90ffFF',
     'color-#70a1ffFF',
     'text-#5ab1ef',
@@ -49,6 +51,7 @@ export default defineConfig({
     'bg-#d49ea2',
     'bg-#5b4947',
     'bg-#7ba3a8',
+    'flex!',
   ],
   shortcuts: {
     'fcc': 'flex items-center justify-center',

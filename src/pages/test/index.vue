@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-
 </script>
 
 <template>
@@ -8,8 +7,10 @@
 
 <route lang="json5">
 {
-  name: 'index',
-  path: '/',
-  redirect: '/home',
+  meta: {
+    title: '测试',
+    icon: 'i-mdi:view-dashboard',
+    order: 2
+  }
 }
 </route>

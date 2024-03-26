@@ -3,14 +3,15 @@ import { useAppStore } from '@/store/app'
 
 const wrapRef = ref<HTMLElement>()
 
-const route = useRoute()
 const appStore = useAppStore()
+const route = useRoute()
 
-// watch(() => route.path, () => {
-//   appStore.activeKey = route.path
-// }, {
-//   immediate: true,
-// })
+watch(route, () => {
+  appStore.activeKey = route.path
+}, {
+  immediate: true,
+  deep: true,
+})
 </script>
 
 <template>
@@ -35,16 +36,16 @@ const appStore = useAppStore()
       <LayoutHeader :wrap-ref="wrapRef" />
       <LayoutTab />
       <n-layout-content
-        class="scrollBar flex-1 overflow-y-auto"
-        :content-style="{
-          overflow: 'hidden',
+        class="flex-1 p-4"
+        :native-scrollbar="false"
+        :scrollbar-props="{
+          xScrollable: true,
         }"
       >
         <router-view v-slot="{ Component }">
           <transition
             name="fade"
-            enter-active-class="animate__animated animate__fadeIn"
-            leave-active-class="animate__animated animate__fadeOut"
+            enter-active-class="animate__animated animate__fadeInRight"
             appear
           >
             <component :is="Component" />

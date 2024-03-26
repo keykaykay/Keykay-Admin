@@ -1,4 +1,4 @@
-import { type GlobalThemeOverrides } from 'naive-ui'
+import type { GlobalThemeOverrides } from 'naive-ui'
 
 export const { VITE_APP_TITLE, VITE_BASE_URL, VITE_WS_URL, VITE_IMG_PREFIX }
   = import.meta.env

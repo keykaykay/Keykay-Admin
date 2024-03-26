@@ -10,6 +10,8 @@ declare global {
     }
     [key: string]: any
   }
+
+  type AppRouteTab = Pick<AppRouteRecordRaw, 'meta' | 'path' | 'name' | 'key'>
 }
 
 export {}

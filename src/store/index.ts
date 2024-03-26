@@ -1,4 +1,6 @@
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import type { PiniaPluginContext } from 'pinia'
+import { createPinia } from 'pinia'
 
 const store = createPinia()
 
@@ -30,6 +32,6 @@ function piniaPlugin(context: PiniaPluginContext) {
   }
 }
 
-store.use(piniaPlugin)
+store.use(piniaPluginPersistedstate)
 
 export default store

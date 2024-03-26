@@ -7,13 +7,6 @@ declare interface ImportMetaEnv {
   readonly VITE_IMG_PREFIX: string
 }
 
-interface Window {
-  $loading: LoadingBarApi
-  $message: MessageApi
-  $dialog: DialogApi
-  $notification: NotificationApi
-}
-
 declare module 'colorthief';
 
 declare interface Fn<T = any, R = T> {

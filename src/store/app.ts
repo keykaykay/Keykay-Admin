@@ -1,11 +1,15 @@
+import type { MenuInst, MenuOption } from 'naive-ui'
+import { nanoid } from 'nanoid'
+import { getMenus, handleRouteKeys, handleRouteToMenu } from '@/utils/tools'
 import router from '@/router'
 
 interface IApp {
   theme: boolean
   collapsed: boolean
   model: 'left' | 'top'
-  tabsList: AppRouteRecordRaw[]
+  tabsList: AppRouteTab[]
   activeKey: string
+  expandedKeys: string[]
 }
 
 export const useAppStore = defineStore({
@@ -16,32 +20,12 @@ export const useAppStore = defineStore({
     model: 'left',
     tabsList: [],
     activeKey: '',
+    expandedKeys: [],
   }),
   getters: {
-    menus(): AppRouteRecordRaw[] {
-      let routes = router
-        .getRoutes()
-        .filter(route => route.meta.order && route.name)
-        .sort((a, b) => Number(a.meta.order) - Number(b.meta.order))
-        .map((route) => {
-          route.children = []
-          return route
-        })
-      for (let index = 0; index < routes.length; index++) {
-        const route = routes[index]
-        if (route.meta?.parent) {
-          const findRoute = routes.find(item => item.path === route.meta.parent)
-          if (findRoute) {
-            route.meta.added = true
-            findRoute.children = [
-              ...(findRoute.children || []),
-              route,
-            ]
-          }
-        }
-      }
-      routes = routes.filter(route => !route.meta.added)
-      return routes
+    menuOptions(): MenuOption[] {
+      const { menuDatas } = getMenus()
+      return menuDatas.map(handleRouteToMenu)
     },
   },
   actions: {
@@ -50,10 +34,37 @@ export const useAppStore = defineStore({
     },
     async logout() {
     },
-    clearTab() {
-
+    handleMenuItemClick(key: string) {
+      router.push(key)
+      const keys: string[] = []
+      handleRouteKeys(key.replace('/redirect', '').split('/'), keys)
+      this.expandedKeys = keys
     },
-    deleteTab(idx: number) {},
-    async addTabs(route: AppRouteRecordRaw) {},
+    async addTabs(route: AppRouteRecordRaw) {
+      if (
+        !this.tabsList.some(item => item.path === route.path) && !(route.path || '').includes('/redirect')
+      ) {
+        this.tabsList.push({
+          key: nanoid(),
+          meta: route.meta,
+          path: route.path,
+          name: route.name,
+        })
+      }
+      // if (this.tabsList.length === 1)
+      //   this.tabsList.map(item => (item.showClose = false))
+
+      // else
+      //   this.tabsList.map(item => (item.showClose = true))
+    },
+    deleteTab(idx: number) {
+      this.tabsList.splice(idx, 1)
+      // if (this.tabsList.length === 1)
+      //   this.tabsList.map(item => (item.showClose = false))
+    },
+    clearTab() {
+      this.tabsList = []
+    },
   },
+  persist: true,
 })

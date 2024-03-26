@@ -33,6 +33,9 @@ function handleLogout() {
     content: '确定退出登录吗？',
     positiveText: '确定',
     negativeText: '取消',
+    closable: false,
+    closeOnEsc: false,
+    maskClosable: false,
     onPositiveClick: async () => {
       appStore.clearTab()
       await appStore.logout()
@@ -49,7 +52,7 @@ watch([isMobile], () => {
 
 <template>
   <n-layout-header
-    class="relative h-12 w-full flex items-center justify-between border-b-1 border-gray-200 dark:border-gray-700"
+    class="relative h-12 w-full flex items-center justify-between shadow dark:shadow-slate-700"
   >
     <div
       v-if="appStore.model === 'top' && !isMobile"
@@ -72,13 +75,13 @@ watch([isMobile], () => {
     <TopMenu v-if="appStore.model === 'top' && !isMobile" class="flex-1" />
     <div
       v-if="appStore.model === 'left' || isMobile"
-      class="ml-2 cursor-pointer text-3xl"
+      class="ml-2 cursor-pointer text-xl"
       :class="[
         isMobile
-          ? 'i-system-uicons:window-collapse-left'
+          ? 'i-line-md:menu-fold-left'
           : appStore.collapsed
-            ? 'i-system-uicons:window-collapse-right'
-            : 'i-system-uicons:window-collapse-left',
+            ? 'i-line-md:menu-fold-right'
+            : 'i-line-md:menu-fold-left',
       ]"
       @click="handleChangeCollapse"
     />
@@ -87,11 +90,11 @@ watch([isMobile], () => {
         <n-tooltip trigger="hover">
           <template #trigger>
             <div
-              class="cursor-pointer text-28px"
+              class="cursor-pointer text-2xl"
               :class="[
                 isFullscreen
-                  ? 'i-ic:baseline-fullscreen-exit'
-                  : 'i-ic:baseline-fullscreen',
+                  ? 'i-mdi:fullscreen-exit'
+                  : 'i-mdi:fullscreen',
               ]"
               @click="toggle()"
             />
@@ -99,6 +102,7 @@ watch([isMobile], () => {
           <span>{{ isFullscreen ? '退出全屏' : '进入全屏' }}</span>
         </n-tooltip>
       </div>
+      <SwitchTheme class="mr-5" />
       <div class="mr-5">
         <n-popover trigger="hover">
           <template #trigger>
@@ -108,13 +112,13 @@ watch([isMobile], () => {
             </div>
           </template>
           <n-grid :cols="1">
-            <!-- <n-gi
-              class="flex items-center cursor-pointer p-2"
+            <n-gi
+              class="flex cursor-pointer items-center p-2"
               :class="`hover:text-${primaryColor}`"
             >
               <div class="i-material-symbols:lock mr-1" />
               <div>修改密码</div>
-            </n-gi> -->
+            </n-gi>
             <n-gi
               class="flex cursor-pointer items-center p-2"
               :class="`hover:text-${primaryColor}`"
@@ -127,7 +131,7 @@ watch([isMobile], () => {
         </n-popover>
       </div>
       <div
-        class="i-ic:sharp-settings cursor-pointer text-24px"
+        class="i-mdi:settings-outline cursor-pointer text-2xl"
         @click="settingDrawer = true"
       />
     </div>
@@ -141,3 +145,9 @@ watch([isMobile], () => {
     :close-drawer-event="() => (settingDrawer = false)"
   />
 </template>
+
+<style>
+.n-popover.n-popover-shared.n-popover-shared--show-arrow {
+  padding: 4px !important;
+}
+</style>

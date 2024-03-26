@@ -21,11 +21,7 @@ function handleChangeModel(model: 'left' | 'top') {
     :width="280"
     placement="right"
   >
-    <n-drawer-content title="系统设置" closable>
-      <n-divider title-placement="center">
-        主题
-      </n-divider>
-      <SwitchTheme />
+    <n-drawer-content title="系统设置">
       <n-divider title-placement="center">
         导航栏模式
       </n-divider>
@@ -34,8 +30,8 @@ function handleChangeModel(model: 'left' | 'top') {
           <template #trigger>
             <div
               class="setting-nav-item-leftmenu relative h-48px w-56px cursor-pointer bg-gray-200"
-              :class="{
-                'border-2 border-#70a1ffFF': appStore.model === 'left',
+              :style="{
+                border: appStore.model === 'left' ? '2px solid #70a1ffFF' : '',
               }"
               @click="handleChangeModel('left')"
             />
@@ -46,8 +42,8 @@ function handleChangeModel(model: 'left' | 'top') {
           <template #trigger>
             <div
               class="setting-nav-item-topmenu relative h-48px w-56px cursor-pointer bg-gray-200"
-              :class="{
-                'border-2 border-#70a1ffFF': appStore.model === 'top',
+              :style="{
+                border: appStore.model === 'top' ? '2px solid #70a1ffFF' : '',
               }"
               @click="handleChangeModel('top')"
             />
