@@ -7,7 +7,7 @@ const appStore = useAppStore()
 const route = useRoute()
 
 watch(route, () => {
-  appStore.activeKey = route.path
+  appStore.handleMenuActiveKeyNExpandKeys(route.path)
 }, {
   immediate: true,
   deep: true,
@@ -36,10 +36,11 @@ watch(route, () => {
       <LayoutHeader :wrap-ref="wrapRef" />
       <LayoutTab />
       <n-layout-content
-        class="flex-1 p-4"
+        class="flex-1 p-2"
         :native-scrollbar="false"
-        :scrollbar-props="{
-          xScrollable: true,
+        :content-style="{
+          maxHeight: '100%',
+          height: '100%',
         }"
       >
         <router-view v-slot="{ Component }">

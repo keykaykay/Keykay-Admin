@@ -20,9 +20,9 @@ export function useEcharts(
 
   function initCharts() {
     const el = unref(elRef)
-    if (!el || !unref(el)) {
+    if (!el || !unref(el))
       return
-    }
+
     chartInstance = echarts.init(el, exposeTheme, { renderer: 'canvas' })
     echarts.registerMap('china', chinaJSON as any)
     useEventListener(window, 'resize', resizeFn)
@@ -60,17 +60,17 @@ export function useEcharts(
   }
 
   tryOnUnmounted(() => {
-    if (!chartInstance) {
+    if (!chartInstance)
       return
-    }
+
     chartInstance.dispose()
     chartInstance = null
   })
 
   function getInstance(): echarts.ECharts | null {
-    if (!chartInstance) {
+    if (!chartInstance)
       initCharts()
-    }
+
     return chartInstance
   }
 

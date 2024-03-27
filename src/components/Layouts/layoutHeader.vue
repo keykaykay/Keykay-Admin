@@ -2,6 +2,7 @@
 import TopMenu from './topMenu.vue'
 import SysSetting from './sysSetting.vue'
 import MobileMenu from './mobileMenu.vue'
+import ToggleTheme from '@/components/SwitchTheme/src/ToggleTheme.vue'
 
 import { useMobile } from '@/hooks/useDevice'
 import { useAppStore } from '@/store/app'
@@ -18,31 +19,13 @@ const { isMobile } = useMobile()
 const { isFullscreen, toggle } = useFullscreen(props.wrapRef)
 const mobileMenu = ref(false)
 const settingDrawer = ref(false)
-const username = computed(() => localCacheStorage.get('name') || '')
+const user = computed(() => localCacheStorage.get<ILoginUserResult>('user'))
 
 function handleChangeCollapse() {
   if (isMobile.value)
     mobileMenu.value = true
   else
     appStore.collapsed = !appStore.collapsed
-}
-
-function handleLogout() {
-  window.$dialog.warning({
-    title: '提示',
-    content: '确定退出登录吗？',
-    positiveText: '确定',
-    negativeText: '取消',
-    closable: false,
-    closeOnEsc: false,
-    maskClosable: false,
-    onPositiveClick: async () => {
-      appStore.clearTab()
-      await appStore.logout()
-      localCacheStorage.clear()
-      router.replace('/login')
-    },
-  })
 }
 
 watch([isMobile], () => {
@@ -60,7 +43,7 @@ watch([isMobile], () => {
       @click="router.push('/')"
     >
       <n-icon size="40">
-        <img class="h-full w-full" src="@/assets/images/logo.svg" alt="logo">
+        <img class="h-full w-full scale-150 object-cover" src="@/assets/images/logo.svg" alt="logo">
       </n-icon>
       <transition
         name="fade"
@@ -85,8 +68,8 @@ watch([isMobile], () => {
       ]"
       @click="handleChangeCollapse"
     />
-    <div class="mr-2 min-w-130px flex items-center justify-end">
-      <div class="mr-5">
+    <div class="mr-2 min-w-130px flex items-center justify-end gap-3">
+      <div>
         <n-tooltip trigger="hover">
           <template #trigger>
             <div
@@ -102,13 +85,14 @@ watch([isMobile], () => {
           <span>{{ isFullscreen ? '退出全屏' : '进入全屏' }}</span>
         </n-tooltip>
       </div>
-      <SwitchTheme class="mr-5" />
-      <div class="mr-5">
+      <!-- <SwitchTheme /> -->
+      <ToggleTheme />
+      <div>
         <n-popover trigger="hover">
           <template #trigger>
             <div class="flex cursor-pointer items-center">
               <n-avatar round size="small" src="https://picsum.photos/200" />
-              <span class="ml-2">{{ username }}</span>
+              <span class="ml-2">{{ user?.username }}</span>
             </div>
           </template>
           <n-grid :cols="1">
@@ -122,7 +106,7 @@ watch([isMobile], () => {
             <n-gi
               class="flex cursor-pointer items-center p-2"
               :class="`hover:text-${primaryColor}`"
-              @click="handleLogout"
+              @click="appStore.logout"
             >
               <div class="i-ri:logout-box-r-fill mr-1" />
               <div>退出登录</div>
@@ -145,9 +129,3 @@ watch([isMobile], () => {
     :close-drawer-event="() => (settingDrawer = false)"
   />
 </template>
-
-<style>
-.n-popover.n-popover-shared.n-popover-shared--show-arrow {
-  padding: 4px !important;
-}
-</style>

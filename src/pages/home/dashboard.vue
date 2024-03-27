@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div class="h-500 w-400 bg-red">
+  <div class="h-500 w-full bg-red">
     dashboard
   </div>
 </template>

@@ -2,6 +2,7 @@ import { NEllipsis, NIcon } from 'naive-ui'
 import type { MenuOption } from 'naive-ui'
 import generatedRoutes from 'virtual:generated-pages'
 import Lodash from 'lodash-es'
+import { ECHARTS_COLOR } from '@/utils/constants'
 
 export function iconComp(icon: string) {
   return h('div', { class: icon })
@@ -129,4 +130,16 @@ export function handleRouteKeys(keys: string[], targetKeys: string[]) {
   else {
     targetKeys.push(keys.join('/'))
   }
+}
+
+/**
+ * 从预定义的颜色列表中生成随机颜色，并每2.5秒更新一次。
+ * @returns 随机颜色的响应式引用。
+ */
+export function getRandomColor() {
+  const randomColor = ref(ECHARTS_COLOR[Math.floor(Math.random() * ECHARTS_COLOR.length)])
+  setInterval(() => {
+    randomColor.value = ECHARTS_COLOR[Math.floor(Math.random() * ECHARTS_COLOR.length)]
+  }, 2500)
+  return randomColor
 }

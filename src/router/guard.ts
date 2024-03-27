@@ -1,5 +1,5 @@
 import { NavigationFailureType, isNavigationFailure } from 'vue-router'
-import type { RouteRecordRaw, Router } from 'vue-router'
+import type { Router } from 'vue-router'
 import { VITE_APP_TITLE } from '@/utils/constants'
 import { localCacheStorage } from '@/utils/storage'
 
@@ -9,15 +9,15 @@ export function useRouterGuards(router: Router) {
     if (to.path === from.path)
       return
 
-    // const token = localCacheStorage.get('token')
-    // if (!token) {
-    //   if (to.path === '/login')
-    //     return next()
+    const token = localCacheStorage.get('token')
+    if (!token) {
+      if (to.path === '/login')
+        return next()
 
-    //   return next('/login')
-    // }
-    // if (to.path === '/login')
-    //   return next('/')
+      return next('/login')
+    }
+    if (to.path === '/login')
+      return next('/')
 
     next()
     return true

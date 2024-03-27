@@ -5,8 +5,8 @@ import { renderIcon } from '@/utils/tools'
 
 const appStore = useAppStore()
 const route = useRoute()
-const draggableRef = ref<any>()
-const showScrollButton = ref(false)
+const draggableRef = ref<any>(null)
+const showScrollButton = ref(true)
 const tabListItemWidth = 110
 const x = ref(0)
 const y = ref(0)
@@ -105,6 +105,11 @@ watch(
     immediate: true,
   },
 )
+
+useEventListener(window, 'resize', () => {
+  showScrollButton.value
+      = draggableRef.value?.$el.scrollWidth > draggableRef.value?.$el.offsetWidth
+})
 </script>
 
 <template>
@@ -116,17 +121,17 @@ watch(
       class="i-material-symbols:chevron-left cursor-pointer text-3xl"
       @click="handleScrollEvent('left')"
     />
-    <VueDraggable v-model="appStore.tabsList" class="h-full flex flex-1 items-center overflow-hidden">
+    <VueDraggable ref="draggableRef" v-model="appStore.tabsList" :animation="150" :class="`h-full flex flex-1 items-center gap-2 overflow-hidden ${showScrollButton ? '' : 'mx-2'}`">
       <template v-for="element in appStore.tabsList" :key="element.key">
         <div
-          class="group position-relative mx-1 h-7 flex cursor-pointer items-center rounded-lg bg-white pl-3 shadow transition dark:bg-#27272c hover:text-#1e90ffFF hover:opacity-80"
+          class="group position-relative h-7 flex flex-shrink-0 cursor-pointer items-center rounded-lg bg-white pl-2 shadow transition dark:bg-#27272c hover:text-#1e90ffFF hover:opacity-80"
           :class="{
             'bg-#1e90ffFF! text-#fff!': appStore.activeKey === element.path,
           }"
           @click="tabsEvent(element)"
           @contextmenu="handleContextMenu($event, element)"
         >
-          <div class="w-full">
+          <div class="h-8 text-12px leading-8">
             {{ element.meta?.title || element.name as string || element.path as string }}
           </div>
           <div

@@ -25,6 +25,7 @@ function findChildrenLen(key: string) {
 function handleExpandedKeys(openKeys: string[]) {
   if (!openKeys)
     return
+
   const latestOpenKey = openKeys.find(key => !appStore.expandedKeys.includes(key))
   const isExistChildren = findChildrenLen(latestOpenKey as string)
   appStore.expandedKeys = isExistChildren ? (latestOpenKey ? [latestOpenKey] : []) : openKeys
@@ -34,17 +35,17 @@ function handleExpandedKeys(openKeys: string[]) {
 <template>
   <div class="h-full w-full text-white">
     <div
-      class="h-12 flex cursor-pointer items-center justify-center"
+      class="h-12 flex cursor-pointer items-center justify-center gap-4"
       @click="router.push('/')"
     >
-      <n-icon size="40">
-        <img class="h-full w-full" src="@/assets/images/logo.svg" alt="logo">
+      <n-icon size="20">
+        <img class="h-full w-full scale-260 object-cover" src="@/assets/images/logo.svg" alt="logo">
       </n-icon>
       <transition
         enter-active-class="animate__animated animate__flipInX"
         appear
       >
-        <div v-show="!appStore.collapsed || isMobile" class="ml-2 mt-1 text-base">
+        <div v-show="!appStore.collapsed || isMobile" class="mt-1 text-base">
           {{ VITE_APP_TITLE }}
         </div>
       </transition>
@@ -54,7 +55,7 @@ function handleExpandedKeys(openKeys: string[]) {
       :collapsed-width="64"
       :collapsed-icon-size="22"
       :indent="30"
-      :root-indent="30"
+      :root-indent="10"
       :options="appStore.menuOptions"
       accordion
       :value="appStore.activeKey"
@@ -64,10 +65,3 @@ function handleExpandedKeys(openKeys: string[]) {
     />
   </div>
 </template>
-
-<style>
-.n-menu-item-content.n-menu-item-content--selected {
-  /* background-color: #1e90ffFF; */
-  /* color: #fff; */
-}
-</style>

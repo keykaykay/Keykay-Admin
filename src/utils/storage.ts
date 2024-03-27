@@ -7,7 +7,7 @@ export interface CreateStorageParams {
   timeout: number
 }
 
-type CacheKey = 'token' | 'name'
+type CacheKey = 'token' | 'routes' | 'user'
 
 class WebStorage {
   private storage: Storage
@@ -46,7 +46,7 @@ class WebStorage {
     this.storage.setItem(this.getKey(key), stringifyValue)
   }
 
-  get(key: CacheKey, def: any = null): any {
+  get<T = any>(key: CacheKey, def: any = null): T | void {
     const val = this.storage.getItem(this.getKey(key))
     if (!val)
       return def
