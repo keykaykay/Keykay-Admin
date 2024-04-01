@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { darkTheme, dateZhCN, zhCN } from 'naive-ui'
-import { useAppStore } from '@/store/app'
 import { themeOverrides } from '@/utils/constants'
 
-const appStore = useAppStore()
-const theme = computed(() => (appStore.theme ? darkTheme : null))
+const isDark = useDark()
+const theme = computed(() => isDark.value ? darkTheme : null)
 </script>
 
 <template>

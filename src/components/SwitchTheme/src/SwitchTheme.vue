@@ -1,14 +1,11 @@
 <script lang="ts" setup>
-import { useAppStore } from '@/store/app'
 import { primaryColor } from '@/utils/constants'
 
 // 切换主题
 const isDark = useDark()
-const appStore = useAppStore()
 
 function toggleDark() {
   isDark.value = !isDark.value
-  appStore.theme = unref(isDark)
 }
 
 function toggleTheme(event: MouseEvent) {

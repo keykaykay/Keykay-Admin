@@ -23,6 +23,10 @@ function handleChangeModel(model: 'left' | 'top') {
   >
     <n-drawer-content title="系统设置">
       <n-divider title-placement="center">
+        主题
+      </n-divider>
+      <ToggleTheme />
+      <n-divider title-placement="center">
         导航栏模式
       </n-divider>
       <div class="h-90px w-full flex items-center justify-around">

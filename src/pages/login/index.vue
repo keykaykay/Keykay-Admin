@@ -58,7 +58,7 @@ watch(isMobile, () => {
         <img :src="LogoImg" alt="logo" class="h-12 w-12 scale-120 object-cover">
         <span class="ml-2 text-xl font-700">{{ VITE_APP_TITLE }}</span>
       </div>
-      <SwitchTheme class="absolute right-5 top-5" />
+      <ToggleTheme class="right-10 top-10 absolute!" />
       <n-form v-if="formAnimate" ref="formRef" :model="form" :rules="rules" size="small" class="rounded-lg p-4 shadow shadow-slate-300 w-80%! dark:shadow-slate-600 hover:shadow-2xl">
         <n-form-item class="enter-x">
           <h1 class="text-center text-2xl font-bold">

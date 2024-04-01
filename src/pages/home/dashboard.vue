@@ -1,8 +1,10 @@
 <script lang="ts" setup>
+const isDark = useDark()
+const test = ref(false)
 </script>
 
 <template>
-  <div class="h-500 w-full bg-red">
+  <div class="relative w-full transition-300 transition-all" :class="[isDark ? 'h-50 bg-red' : 'h-100 bg-yellow']" @click="() => test = !test">
     dashboard
   </div>
 </template>

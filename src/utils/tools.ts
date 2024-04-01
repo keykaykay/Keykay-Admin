@@ -3,6 +3,7 @@ import type { MenuOption } from 'naive-ui'
 import generatedRoutes from 'virtual:generated-pages'
 import Lodash from 'lodash-es'
 import { ECHARTS_COLOR } from '@/utils/constants'
+import router from '@/router'
 
 export function iconComp(icon: string) {
   return h('div', { class: icon })
@@ -43,7 +44,6 @@ export function handleRouteToMenu(item: AppRouteRecordRaw): MenuOption {
     </route>
   `)
   }
-
   const target = {
     label: renderLabel(item.meta?.title || item.name as string || item.path as string),
     // icon: renderIcon(item.meta?.icon || ''),
@@ -118,17 +118,6 @@ export function getMenus() {
   return {
     menuDatas: rawRouteToMenu(res),
     rawDatas: fileterRes,
-  }
-}
-
-export function handleRouteKeys(keys: string[], targetKeys: string[]) {
-  if (keys.length > 2) {
-    keys.pop()
-    targetKeys.push(keys.join('/'))
-    handleRouteKeys(keys, targetKeys)
-  }
-  else {
-    targetKeys.push(keys.join('/'))
   }
 }
 

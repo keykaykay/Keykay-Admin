@@ -124,10 +124,11 @@ useEventListener(window, 'resize', () => {
     <VueDraggable ref="draggableRef" v-model="appStore.tabsList" :animation="150" :class="`h-full flex flex-1 items-center gap-2 overflow-hidden ${showScrollButton ? '' : 'mx-2'}`">
       <template v-for="element in appStore.tabsList" :key="element.key">
         <div
-          class="group position-relative h-7 flex flex-shrink-0 cursor-pointer items-center rounded-lg bg-white pl-2 shadow transition dark:bg-#27272c hover:text-#1e90ffFF hover:opacity-80"
-          :class="{
-            'bg-#1e90ffFF! text-#fff!': appStore.activeKey === element.path,
-          }"
+          class="group position-relative h-7 flex flex-shrink-0 cursor-pointer items-center rounded-lg bg-white px-2 shadow transition transition-all dark:bg-#27272c hover:text-#1e90ffFF hover:opacity-80"
+          :class="[
+            appStore.activeKey === element.path ? 'bg-#1e90ffFF! text-#fff!' : '',
+            appStore.tabsList.length > 1 ? 'hover:pr-0' : '',
+          ]"
           @click="tabsEvent(element)"
           @contextmenu="handleContextMenu($event, element)"
         >
@@ -135,10 +136,9 @@ useEventListener(window, 'resize', () => {
             {{ element.meta?.title || element.name as string || element.path as string }}
           </div>
           <div
-            class="i-line-md:close-small"
+            class="i-line-md:close-small w-0"
             :class="[
-              appStore.tabsList.length > 1 ? 'group-hover:visible' : 'invisible',
-              appStore.activeKey === element.path ? 'visible' : 'invisible',
+              appStore.tabsList.length > 1 ? 'group-hover:w-4' : 'w-0',
             ]"
             @click.stop="tabsDeleteEvent(element)"
           />

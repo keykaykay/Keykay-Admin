@@ -7,7 +7,7 @@ const appStore = useAppStore()
 const route = useRoute()
 
 watch(route, () => {
-  appStore.handleMenuActiveKeyNExpandKeys(route.path)
+  appStore.activeKey = route.path
 }, {
   immediate: true,
   deep: true,

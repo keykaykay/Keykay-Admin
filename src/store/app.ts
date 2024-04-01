@@ -1,28 +1,24 @@
 import type { MenuOption } from 'naive-ui'
 import { nanoid } from 'nanoid'
 import dayjs from 'dayjs'
-import { getMenus, handleRouteKeys, handleRouteToMenu } from '@/utils/tools'
+import { getMenus, handleRouteToMenu } from '@/utils/tools'
 import router from '@/router'
 import { localCacheStorage } from '@/utils/storage'
 
 interface IApp {
-  theme: boolean
   collapsed: boolean
   model: 'left' | 'top'
   tabsList: AppRouteTab[]
   activeKey: string
-  expandedKeys: string[]
 }
 
 export const useAppStore = defineStore({
   id: 'app',
   state: (): IApp => ({
-    theme: unref(useDark()),
     collapsed: false,
     model: 'left',
     tabsList: [],
     activeKey: '',
-    expandedKeys: [],
   }),
   getters: {
     menuOptions(): MenuOption[] {
@@ -68,13 +64,7 @@ export const useAppStore = defineStore({
     },
     handleMenuItemClick(key: string) {
       router.push(key)
-    },
-
-    handleMenuActiveKeyNExpandKeys(key: string) {
-      this.activeKey = key
-      const keys: string[] = []
-      handleRouteKeys(key.replace('/redirect', '').split('/'), keys)
-      this.expandedKeys = keys
+      this.activeKey = key.replace('/redirect', '')
     },
     async addTabs(route: AppRouteRecordRaw) {
       if (

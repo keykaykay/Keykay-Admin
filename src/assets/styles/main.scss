@@ -33,18 +33,17 @@ img, a {
 }
 
 /* 进入dark模式和退出dark模式时，两个图像的位置顺序正好相反 */
-
 ::view-transition-old(root) {
   z-index: 1;
 }
 
 ::view-transition-new(root) {
-  z-index: 2147483646;
+  z-index: 999;
 }
 
 /* 根据自己选择器修改 */
 [class="dark"]::view-transition-old(root) {
-  z-index: 2147483646;
+  z-index: 999;
 }
 [class="dark"]::view-transition-new(root) {
   z-index: 1;
@@ -88,7 +87,7 @@ img, a {
   }
 }
 
-.m-scrollBar {
+.scrollBar {
   overflow: auto;
   @include mScrollBar();
 }

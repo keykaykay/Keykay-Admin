@@ -28,6 +28,11 @@ function handleChangeCollapse() {
     appStore.collapsed = !appStore.collapsed
 }
 
+const infoCollapse = ref(false)
+function handleInfoPopoverShow(val: boolean) {
+  infoCollapse.value = val
+}
+
 watch([isMobile], () => {
   mobileMenu.value = false
 })
@@ -73,6 +78,17 @@ watch([isMobile], () => {
         <n-tooltip trigger="hover">
           <template #trigger>
             <div
+              class="i-mdi:settings-outline cursor-pointer text-xl"
+              @click="settingDrawer = true"
+            />
+          </template>
+          <span>设置</span>
+        </n-tooltip>
+      </div>
+      <div>
+        <n-tooltip trigger="hover">
+          <template #trigger>
+            <div
               class="cursor-pointer text-2xl"
               :class="[
                 isFullscreen
@@ -85,14 +101,17 @@ watch([isMobile], () => {
           <span>{{ isFullscreen ? '退出全屏' : '进入全屏' }}</span>
         </n-tooltip>
       </div>
-      <!-- <SwitchTheme /> -->
-      <ToggleTheme />
       <div>
-        <n-popover trigger="hover">
+        <n-popover trigger="hover" @update:show="handleInfoPopoverShow">
           <template #trigger>
             <div class="flex cursor-pointer items-center">
               <n-avatar round size="small" src="https://picsum.photos/200" />
-              <span class="ml-2">{{ user?.username }}</span>
+              <span class="ml-1">{{ user?.username }}</span>
+              <div
+                class="text-xl" :class="[
+                  infoCollapse ? 'i-material-symbols-light:keyboard-arrow-up' : 'i-material-symbols-light:keyboard-arrow-down',
+                ]"
+              />
             </div>
           </template>
           <n-grid :cols="1">
@@ -114,10 +133,6 @@ watch([isMobile], () => {
           </n-grid>
         </n-popover>
       </div>
-      <div
-        class="i-mdi:settings-outline cursor-pointer text-2xl"
-        @click="settingDrawer = true"
-      />
     </div>
   </n-layout-header>
   <MobileMenu

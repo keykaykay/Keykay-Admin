@@ -1,3 +1,3 @@
-import SwitchTheme from './src/SwitchTheme.vue'
+import ToggleTheme from './src/ToggleTheme.vue'
 
-export default SwitchTheme
+export default ToggleTheme

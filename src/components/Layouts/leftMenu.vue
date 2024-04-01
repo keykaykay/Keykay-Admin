@@ -1,35 +1,21 @@
 <script lang="ts" setup>
+import type { MenuInst } from 'naive-ui'
 import { NMenu } from 'naive-ui'
 import { useAppStore } from '@/store/app'
 import { VITE_APP_TITLE } from '@/utils/constants'
 import { useMobile } from '@/hooks/useDevice'
-import { getMenus } from '@/utils/tools'
 
-const { menuDatas } = getMenus()
+const menuInstRef = ref<MenuInst | null>(null)
 const router = useRouter()
 const appStore = useAppStore()
 const { isMobile } = useMobile()
 
-// 查找是否存在子路由
-function findChildrenLen(key: string) {
-  if (!key)
-    return false
-  const subRouteChildren: string[] = []
-  for (const { children, key } of unref(menuDatas)) {
-    if (children && children.length)
-      subRouteChildren.push(key as string)
-  }
-  return subRouteChildren.includes(key)
-}
-
-function handleExpandedKeys(openKeys: string[]) {
-  if (!openKeys)
-    return
-
-  const latestOpenKey = openKeys.find(key => !appStore.expandedKeys.includes(key))
-  const isExistChildren = findChildrenLen(latestOpenKey as string)
-  appStore.expandedKeys = isExistChildren ? (latestOpenKey ? [latestOpenKey] : []) : openKeys
-}
+const refreshExpand = computed(() => appStore.activeKey)
+watch(refreshExpand, () => {
+  menuInstRef.value?.showOption(appStore.activeKey)
+}, {
+  immediate: true,
+})
 </script>
 
 <template>
@@ -51,6 +37,7 @@ function handleExpandedKeys(openKeys: string[]) {
       </transition>
     </div>
     <NMenu
+      ref="menuInstRef"
       inverted
       :collapsed-width="64"
       :collapsed-icon-size="22"
@@ -59,9 +46,7 @@ function handleExpandedKeys(openKeys: string[]) {
       :options="appStore.menuOptions"
       accordion
       :value="appStore.activeKey"
-      :expanded-keys="appStore.expandedKeys"
       @update:value="(key) => appStore.handleMenuItemClick(key)"
-      @update:expanded-keys="handleExpandedKeys"
     />
   </div>
 </template>
