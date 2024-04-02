@@ -28,11 +28,6 @@ function handleChangeCollapse() {
     appStore.collapsed = !appStore.collapsed
 }
 
-const infoCollapse = ref(false)
-function handleInfoPopoverShow(val: boolean) {
-  infoCollapse.value = val
-}
-
 watch([isMobile], () => {
   mobileMenu.value = false
 })
@@ -102,15 +97,13 @@ watch([isMobile], () => {
         </n-tooltip>
       </div>
       <div>
-        <n-popover trigger="hover" @update:show="handleInfoPopoverShow">
+        <n-popover trigger="hover">
           <template #trigger>
-            <div class="flex cursor-pointer items-center">
+            <div class="group flex cursor-pointer items-center">
               <n-avatar round size="small" src="https://picsum.photos/200" />
               <span class="ml-1">{{ user?.username }}</span>
               <div
-                class="text-xl" :class="[
-                  infoCollapse ? 'i-material-symbols-light:keyboard-arrow-up' : 'i-material-symbols-light:keyboard-arrow-down',
-                ]"
+                class="i-material-symbols-light:keyboard-arrow-down text-xl transition-all duration-300 group-hover:rotate-180"
               />
             </div>
           </template>
