@@ -1,5 +1,5 @@
 <script lang="tsx" setup>
-import { NImage } from 'naive-ui'
+import Logo from '@/assets/images/logo.svg'
 
 const isDark = useDark()
 const previewShow = ref(false)
@@ -18,6 +18,8 @@ interface HH {
 const tableOption = ref<ITableOption<HH, IPaginationProps>>({
   virtualScroll: true,
   hiddenHeader: false,
+  hiddenHeaderRight: {},
+  hiddenContextmenu: false,
   columns: [
     {
       key: 'name',
@@ -44,7 +46,7 @@ const tableOption = ref<ITableOption<HH, IPaginationProps>>({
       render() {
         return (
           <div class="whf fcc">
-            <n-qr-code color={isDark.value ? '#fff' : '#000'} value="text" background-color="#ffffff00" />
+            <n-qr-code color={isDark.value ? '#fff' : '#000'} icon-background-color={isDark.value ? '#f3f4f6e0' : '#f3f4f6e0'} icon-size={30} icon-src={Logo} value="https://baidu.com" background-color="#ffffff00" />
           </div>
         )
       },
@@ -54,31 +56,31 @@ const tableOption = ref<ITableOption<HH, IPaginationProps>>({
       title: '身高',
       align: 'center',
     },
-    // {
-    //   key: 't1',
-    //   title: 't1',
-    //   align: 'center',
-    // },
-    // {
-    //   key: 't2',
-    //   title: 't2',
-    //   align: 'center',
-    // },
-    // {
-    //   key: 't3',
-    //   title: 't3',
-    //   align: 'center',
-    // },
-    // {
-    //   key: 't4',
-    //   title: 't4',
-    //   align: 'center',
-    // },
-    // {
-    //   key: 't5',
-    //   title: 't5',
-    //   align: 'center',
-    // },
+    {
+      key: 't1',
+      title: 't1',
+      align: 'center',
+    },
+    {
+      key: 't2',
+      title: 't2',
+      align: 'center',
+    },
+    {
+      key: 't3',
+      title: 't3',
+      align: 'center',
+    },
+    {
+      key: 't4',
+      title: 't4',
+      align: 'center',
+    },
+    {
+      key: 't5',
+      title: 't5',
+      align: 'center',
+    },
   ],
   data: Array.from({ length: 3000 }).map((_, index) => ({
     key: `${index}`,

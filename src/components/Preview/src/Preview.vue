@@ -133,6 +133,14 @@ function handleMouseUp(e: MouseEvent) {
   document.removeEventListener('mousemove', handleMouseMove)
   document.removeEventListener('mouseup', handleMouseUp)
 }
+
+function handleInitialRatio() {
+  if (disableScale.value)
+    return
+
+  imageScale.value = 1
+}
+
 onMounted(() => {
   document.addEventListener('keydown', handleKeyDown)
   document.addEventListener('wheel', handleWheel)
@@ -146,7 +154,7 @@ onUnmounted(() => {
 
 <template>
   <teleport to="body">
-    <div class="absolute bottom-0 left-0 right-0 top-0 z-99999 fcc bg-gray-500 bg-opacity-75">
+    <div class="absolute bottom-0 left-0 right-0 top-0 z-100 fcc bg-black bg-opacity-60">
       <n-image
         ref="imageRef"
         :key="currentIndex"
@@ -164,16 +172,57 @@ onUnmounted(() => {
         :fallback-src="Logo"
         @mousedown="handleMouseDown"
       />
-      <div class="absolute bottom-10 h-10 w-59 fcb flex rounded-5 bg-gray-900 bg-opacity-75 px-5 text-white">
-        <div class="i-ph:magnifying-glass-minus cursor-pointer text-xl" @click="handleCutEvent" />
-        <div class="i-ph:magnifying-glass-plus cursor-pointer text-xl" @click="handleAddEvent" />
-        <div class="i-ph:arrow-counter-clockwise-fill cursor-pointer text-xl" @click="handleLeftRotate" />
-        <div class="i-ph:arrow-clockwise-fill cursor-pointer text-xl" @click="handleRightRotate" />
+      <div class="absolute bottom-10 h-10 flex flex items-center gap-6 rounded-5 bg-gray-900 bg-opacity-75 px-2 px-5 text-white">
+        <n-tooltip trigger="hover">
+          <template #trigger>
+            <div class="i-ph:arrow-left cursor-pointer text-xl" :class="[currentIndex === 0 ? 'text-gray cursor-not-allowed' : 'text-white cursor-pointer hover:text-#1e90ffFF']" @click="handleLeftEvent" />
+          </template>
+          上一张
+        </n-tooltip>
+        <n-tooltip trigger="hover">
+          <template #trigger>
+            <div class="i-ph:arrow-right cursor-pointer text-xl" :class="[currentIndex === images.length - 1 ? 'text-gray cursor-not-allowed' : 'text-white cursor-pointer hover:text-#1e90ffFF']" @click="handleRightEvent" />
+          </template>
+          下一张
+        </n-tooltip>
+        <n-tooltip trigger="hover">
+          <template #trigger>
+            <div class="i-ph:magnifying-glass-minus cursor-pointer text-xl hover:text-#1e90ffFF" @click="handleCutEvent" />
+          </template>
+          缩小
+        </n-tooltip>
+        <n-tooltip trigger="hover">
+          <template #trigger>
+            <div class="i-ph:magnifying-glass-plus cursor-pointer text-xl hover:text-#1e90ffFF" @click="handleAddEvent" />
+          </template>
+          放大
+        </n-tooltip>
+        <n-tooltip trigger="hover">
+          <template #trigger>
+            <div class="i-ph:arrow-counter-clockwise-fill cursor-pointer text-xl hover:text-#1e90ffFF" @click="handleLeftRotate" />
+          </template>
+          向左旋转
+        </n-tooltip>
+        <n-tooltip trigger="hover">
+          <template #trigger>
+            <div class="i-ph:arrow-clockwise-fill cursor-pointer text-xl hover:text-#1e90ffFF" @click="handleRightRotate" />
+          </template>
+          向右旋转
+        </n-tooltip>
+        <n-tooltip trigger="hover">
+          <template #trigger>
+            <div class="i-ph:corners-out cursor-pointer text-xl hover:text-#1e90ffFF" @click="handleInitialRatio" />
+          </template>
+          初始比例
+        </n-tooltip>
+        <n-tooltip trigger="hover">
+          <template #trigger>
+            <div class="i-ph:x cursor-pointer text-xl hover:text-#1e90ffFF" @click="hidden" />
+          </template>
+          关闭
+        </n-tooltip>
       </div>
-      <div class="i-ph:arrow-circle-left absolute left-6 text-5xl transition-all" :class="[currentIndex === 0 ? 'text-gray cursor-not-allowed' : 'text-white cursor-pointer hover:text-#1e90ffFF']" @click="handleLeftEvent" />
-      <div class="i-ph:arrow-circle-right absolute right-6 cursor-pointer text-5xl text-white transition-all" :class="[currentIndex === images.length - 1 ? 'text-gray cursor-not-allowed' : 'text-white cursor-pointer hover:text-#1e90ffFF']" @click="handleRightEvent" />
-      <div class="i-mdi:close-circle-outline absolute right-4 top-4 cursor-pointer text-3xl text-white transition-all hover:text-#1e90ffFF" @click="hidden" />
-      <div class="absolute bottom-2 h-6 w-59 px-5 text-center text-sm text-white">
+      <div class="absolute top-6 h-6 w-59 px-5 text-center text-sm text-white">
         {{ currentIndex + 1 }} / {{ images.length }}
       </div>
     </div>

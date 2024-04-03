@@ -1,5 +1,5 @@
 <script lang="tsx" setup>
-import Draggable from 'vuedraggable'
+import { VueDraggable } from 'vue-draggable-plus'
 import type {
   DataTableRowKey,
   DataTableSortState,
@@ -152,14 +152,15 @@ function handleScrollX() {
   else scrollX.value = scrollWidth
 }
 
+function handleFixed(fixed: 'left' | 'right' | undefined, el: TCheckbox) {
+  el.fixed = fixed
+  console.log(el)
+}
+
 watch([isMobile, tableRef], () => {
   if (tableRef.value?.$el)
     handleScrollX()
 })
-
-function handleFixed(fixed: 'left' | 'right' | undefined, el: TDataColumn<any>) {
-  el.fixed = fixed
-}
 
 // table row 右键事件
 const showDropdown = ref(false)
@@ -324,17 +325,26 @@ watch(
   },
 )
 
-const searchFormModelData = ref<IFormData>(rawFormOptions.filter(item => !item.hiddenSearch).reduce((pre, item) => {
+const headerAnimate = ref(true)
+function handleHeaderAnimate() {
+  headerAnimate.value = false
+  nextTick(() => {
+    headerAnimate.value = true
+  })
+}
+
+const searchFormRawData = ref(rawFormOptions.filter(item => !item.hiddenSearch))
+const searchFormModelData = ref<IFormData>(searchFormRawData.value.reduce((pre, item) => {
   item.path && (pre[item.path] = item.value)
   return pre
 }, {} as IFormData))
 const searchCollapsed = ref(true)
 const searchFormItemOptions = computed<IModalData[]>(() => {
   if (searchCollapsed.value)
-    return rawFormOptions.filter(item => !item.hiddenSearch).slice(0, 2)
+    return searchFormRawData.value.slice(0, 2)
 
   else
-    return rawFormOptions.filter(item => !item.hiddenSearch)
+    return searchFormRawData.value
 })
 
 function handleAddSearchFormComp(formData: IFormData, item: IModalData) {
@@ -380,11 +390,19 @@ function handleSearchQueryEvent() {
 }
 
 function handleSearchResetEvent() {
+  handleHeaderAnimate()
   searchFormModelData.value = rawFormOptions.filter(item => !item.hiddenSearch).reduce((pre, item) => {
     pre[item.path] = item.value
     return pre
   }, {} as IFormData)
   handleSearchQueryEvent()
+}
+
+function handleSearchCollapsed() {
+  searchCollapsed.value = !searchCollapsed.value
+  nextTick(() => {
+    handleHeaderAnimate()
+  })
 }
 </script>
 
@@ -395,8 +413,9 @@ function handleSearchResetEvent() {
     <template #header>
       <slot name="header">
         <div v-if="!hiddenHeader && (!hiddenHeaderSearch || !hiddenHeaderHandle)">
-          <div v-if="!hiddenHeaderSearch" class="mb-4 shadow-gray-100 shadow-md dark:shadow-gray-700">
+          <div v-if="!hiddenHeaderSearch" class="mb-4 shadow-gray-100 shadow-sm dark:shadow-gray-700">
             <NForm
+              v-if="headerAnimate"
               ref="modalFromRef"
               label-placement="left"
               :label-width="100"
@@ -408,7 +427,7 @@ function handleSearchResetEvent() {
                 <n-form-item
                   v-for="item in searchFormItemOptions"
                   :key="item.label"
-                  class="h-10"
+                  class="enter-x h-10"
                   :label="item.label"
                   :path="item.path"
                 >
@@ -423,8 +442,7 @@ function handleSearchResetEvent() {
                   <n-button class="ml-3" type="info" @click="handleSearchQueryEvent">
                     查询
                   </n-button>
-                  <n-button v-if="searchFormItemOptions.length > 2" class="ml-3" dashed @click="searchCollapsed = !searchCollapsed">
-                    展开
+                  <n-button class="ml-3" @click="handleSearchCollapsed">
                     <template #icon>
                       <div :class="[searchCollapsed ? 'i-ic:baseline-keyboard-arrow-down' : 'i-ic:baseline-keyboard-arrow-up']" />
                     </template>
@@ -432,8 +450,6 @@ function handleSearchResetEvent() {
                 </div>
               </div>
             </NForm>
-
-            <div class="h-1 bg-gray-100 dark:bg-gray-600" />
           </div>
           <div v-if="!hiddenHeaderHandle" class="flex justify-between">
             <div>
@@ -470,68 +486,59 @@ function handleSearchResetEvent() {
                   </n-tooltip>
                 </template>
                 <n-scrollbar class="max-h-300px w-200px">
-                  <Draggable
-                    :list="chooseColumnsRaw"
-                    animation="300"
-                    item-key="key"
-                  >
-                    <template #item="{ element }">
-                      <div
-                        class="mb-2 h-6 w-full flex items-center justify-between text-xl hover:bg-gray-100 dark:hover:bg-gray-600"
-                      >
-                        <n-tooltip trigger="hover" placement="left">
-                          <template #trigger>
-                            <div class="i-ri:drag-move-2-fill cursor-move" />
-                          </template>
-                          <span>拖动调整顺序</span>
-                        </n-tooltip>
-                        <n-checkbox
-                          v-model:checked="element.checked"
-                          class="w-30"
-                          :value="element.value"
-                          :label="element.label"
-                        />
-                        <div class="w-12 flex justify-between">
-                          <n-tooltip trigger="hover" placement="bottom">
+                  <div class="w-full">
+                    <div class="my-1 w-full flex items-center justify-end">
+                      <n-button size="tiny" strong secondary type="info">
+                        重置
+                      </n-button>
+                    </div>
+                    <VueDraggable v-model="chooseColumnsRaw" :animation="300">
+                      <template v-for="element in chooseColumnsRaw" :key="element.key">
+                        <div
+                          class="mb-2 h-6 w-full flex items-center justify-between text-xl hover:bg-gray-100 dark:hover:bg-gray-600"
+                        >
+                          <n-tooltip trigger="hover" placement="left">
                             <template #trigger>
-                              <div
-                                class="i-system-uicons:push-left cursor-pointer"
-                                :class="{
-                                  'color-#70a1ff': element.fixed === 'left',
-                                }"
-                                @click="
-                                  handleFixed(
-                                    element.fixed === 'left' ? undefined : 'left',
-                                    element,
-                                  )
-                                "
-                              />
+                              <div class="i-ri:drag-move-2-fill cursor-move" />
                             </template>
-                            <span>固定左侧</span>
+                            <span>拖动调整顺序</span>
                           </n-tooltip>
-                          <n-tooltip trigger="hover" placement="bottom">
-                            <template #trigger>
-                              <div
-                                class="i-system-uicons:push-right cursor-pointer"
-                                :class="{
-                                  'color-#70a1ff': element.fixed === 'right',
-                                }"
-                                @click="
-                                  handleFixed(
-                                    element.fixed === 'right'
-                                      ? undefined
-                                      : 'right',
-                                    element,
-                                  )
-                                "
-                              />
-                            </template>
-                            <span>固定右侧</span>
-                          </n-tooltip>
+                          <n-checkbox
+                            v-model:checked="element.checked"
+                            class="w-30"
+                            :value="element.value"
+                            :label="element.label"
+                          />
+                          <div class="w-12 flex justify-between">
+                            <n-tooltip trigger="hover" placement="bottom">
+                              <template #trigger>
+                                <div
+                                  class="i-system-uicons:push-left cursor-pointer"
+                                  :class="{
+                                    'color-#70a1ff': element.fixed === 'left',
+                                  }"
+                                  @click="handleFixed(element.fixed === 'left' ? undefined : 'left', element)"
+                                />
+                              </template>
+                              <span>固定左侧</span>
+                            </n-tooltip>
+                            <n-tooltip trigger="hover" placement="bottom">
+                              <template #trigger>
+                                <div
+                                  class="i-system-uicons:push-right cursor-pointer"
+                                  :class="{
+                                    'color-#70a1ff': element.fixed === 'right',
+                                  }"
+                                  @click="handleFixed(element.fixed === 'right' ? undefined : 'right', element)"
+                                />
+                              </template>
+                              <span>固定右侧</span>
+                            </n-tooltip>
+                          </div>
                         </div>
-                      </div>
-                    </template>
-                  </Draggable>
+                      </template>
+                    </VueDraggable>
+                  </div>
                 </n-scrollbar>
               </n-popover>
               <n-tooltip v-if="!hiddenHeaderRight?.fullscreen" trigger="hover" placement="bottom">
@@ -644,6 +651,7 @@ function handleSearchResetEvent() {
             <n-form-item
               v-for="item in formItemOptions"
               :key="item.label"
+              class="enter-x"
               :label="item.label"
               :path="item.path"
             >
