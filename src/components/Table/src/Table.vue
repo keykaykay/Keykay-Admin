@@ -226,12 +226,15 @@ function handleRowProps(rowData: TInternalRowData, rowIdx: number) {
       }
       isAdd.value = false
     },
-    onclick: () => {
-      if (!props.rowCellClickEvent) {
-        console.warn('请传递rowCellClickEvent参数')
-        return
+    onclick: (e: MouseEvent) => {
+      const el = e.target as HTMLElement
+      if (el?.className?.includes('n-data-table-td')) {
+        if (!props.rowCellClickEvent) {
+          console.warn('请传递rowCellClickEvent参数')
+          return
+        }
+        props.rowCellClickEvent?.(rowData, rowIdx)
       }
-      props.rowCellClickEvent?.(rowData, rowIdx)
     },
   }
 }
@@ -422,11 +425,12 @@ function handleSearchCollapsed() {
               :model="searchFormModelData"
             >
               <div
-                class="grid grid-cols-1 items-center gap-3 md:grid-cols-2 sm:grid-cols-2"
+                class="grid grid-cols-1 items-center gap-3 md:grid-cols-2"
               >
                 <n-form-item
                   v-for="item in searchFormItemOptions"
                   :key="item.label"
+                  size="small"
                   class="enter-x h-10"
                   :label="item.label"
                   :path="item.path"
@@ -435,14 +439,14 @@ function handleSearchCollapsed() {
                 </n-form-item>
               </div>
               <div class="h-10 w-full flex justify-end">
-                <div class="flex items-center">
-                  <n-button class="ml-3" strong secondary type="tertiary" @click="handleSearchResetEvent">
+                <div class="flex items-center gap-2">
+                  <n-button strong secondary type="tertiary" @click="handleSearchResetEvent">
                     重置
                   </n-button>
-                  <n-button class="ml-3" type="info" @click="handleSearchQueryEvent">
+                  <n-button type="info" @click="handleSearchQueryEvent">
                     查询
                   </n-button>
-                  <n-button class="ml-3" @click="handleSearchCollapsed">
+                  <n-button v-if="searchFormRawData.length > 2" @click="handleSearchCollapsed">
                     <template #icon>
                       <div :class="[searchCollapsed ? 'i-ic:baseline-keyboard-arrow-down' : 'i-ic:baseline-keyboard-arrow-up']" />
                     </template>
@@ -646,12 +650,13 @@ function handleSearchCollapsed() {
           :rules="formRules"
         >
           <div
-            class="grid grid-cols-1 items-center gap-3 md:grid-cols-3 sm:grid-cols-2"
+            class="grid grid-cols-1 items-center gap-3 md:grid-cols-2"
           >
             <n-form-item
               v-for="item in formItemOptions"
               :key="item.label"
-              class="enter-x"
+              size="small"
+              class="enter-x h-10"
               :label="item.label"
               :path="item.path"
             >

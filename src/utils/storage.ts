@@ -20,7 +20,7 @@ class WebStorage {
    */
   constructor({
     prefixKey = '',
-    storage = sessionStorage,
+    storage = localStorage,
     hasEncrypt = true,
     timeout = 0,
   }: Partial<CreateStorageParams> = {}) {

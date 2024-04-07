@@ -4,7 +4,8 @@ import Logo from '@/assets/images/logo.svg'
 const isDark = useDark()
 const previewShow = ref(false)
 const previewIndex = ref(0)
-const previewImages = ref<string[]>(Array.from({ length: 3000 }).map((_, idx) => `https://picsum.photos/200/300?random=${idx}`))
+const rawPreviewImages = Array.from({ length: 3000 }).map((_, idx) => `https://picsum.photos/200/300?random=${idx}`)
+const previewImages = ref<string[]>([])
 interface HH {
   name: string
   age: number
@@ -29,8 +30,9 @@ const tableOption = ref<ITableOption<HH, IPaginationProps>>({
         return (
           <img
             src={`https://picsum.photos/200/300?random=${idx}`}
-            class="h-50 w-50 object-cover"
+            class="aspect-square w-full object-cover"
             onClick={() => {
+              previewImages.value = rawPreviewImages
               previewIndex.value = idx
               previewShow.value = true
             }}
@@ -43,10 +45,24 @@ const tableOption = ref<ITableOption<HH, IPaginationProps>>({
       title: '年龄',
       align: 'center',
       sorter: true,
-      render() {
+      render(_, idx) {
+        const classId = `qr-code-${idx}`
         return (
-          <div class="whf fcc">
-            <n-qr-code color={isDark.value ? '#fff' : '#000'} icon-background-color={isDark.value ? '#f3f4f6e0' : '#f3f4f6e0'} icon-size={30} icon-src={Logo} value="https://baidu.com" background-color="#ffffff00" />
+          <div
+            class="aspect-square w-full fcc"
+            onClick={() => {
+              const canvas = document
+                .querySelector(`.${classId}`)
+                ?.querySelector<HTMLCanvasElement>('canvas')
+              if (canvas) {
+                const url = canvas.toDataURL()
+                previewImages.value = [url]
+                previewIndex.value = 0
+                previewShow.value = true
+              }
+            }}
+          >
+            <n-qr-code class={classId} color={isDark.value ? '#fff' : '#000'} icon-background-color="#f3f4f6e0" icon-size={30} icon-src={Logo} value={classId} background-color="#ffffff00" />
           </div>
         )
       },
@@ -56,31 +72,31 @@ const tableOption = ref<ITableOption<HH, IPaginationProps>>({
       title: '身高',
       align: 'center',
     },
-    {
-      key: 't1',
-      title: 't1',
-      align: 'center',
-    },
-    {
-      key: 't2',
-      title: 't2',
-      align: 'center',
-    },
-    {
-      key: 't3',
-      title: 't3',
-      align: 'center',
-    },
-    {
-      key: 't4',
-      title: 't4',
-      align: 'center',
-    },
-    {
-      key: 't5',
-      title: 't5',
-      align: 'center',
-    },
+    // {
+    //   key: 't1',
+    //   title: 't1',
+    //   align: 'center',
+    // },
+    // {
+    //   key: 't2',
+    //   title: 't2',
+    //   align: 'center',
+    // },
+    // {
+    //   key: 't3',
+    //   title: 't3',
+    //   align: 'center',
+    // },
+    // {
+    //   key: 't4',
+    //   title: 't4',
+    //   align: 'center',
+    // },
+    // {
+    //   key: 't5',
+    //   title: 't5',
+    //   align: 'center',
+    // },
   ],
   data: Array.from({ length: 3000 }).map((_, index) => ({
     key: `${index}`,

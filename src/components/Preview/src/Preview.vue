@@ -141,6 +141,11 @@ function handleInitialRatio() {
   imageScale.value = 1
 }
 
+function handleGroupHidden(e: MouseEvent) {
+  if (e.target.className.includes('preview-group'))
+    props.hidden()
+}
+
 onMounted(() => {
   document.addEventListener('keydown', handleKeyDown)
   document.addEventListener('wheel', handleWheel)
@@ -154,12 +159,12 @@ onUnmounted(() => {
 
 <template>
   <teleport to="body">
-    <div class="absolute bottom-0 left-0 right-0 top-0 z-100 fcc bg-black bg-opacity-60">
+    <div
+      class="preview-group absolute bottom-0 left-0 right-0 top-0 z-100 fcc bg-black bg-opacity-60" @click="handleGroupHidden"
+    >
       <n-image
         ref="imageRef"
         :key="currentIndex"
-        :width="640"
-        :height="420"
         :style="{
           'transform': `translateX(${translateX}px) translateY(${translateY}px) scale(${imageScale}) rotate(${imageRotate}deg)`,
           'transform-origin': 'center center',

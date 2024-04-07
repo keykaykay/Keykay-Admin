@@ -10,3 +10,13 @@
 .n-popover.n-popover-shared.n-popover-shared--show-arrow {
   padding: 4px !important;
 }
+
+.n-qr-code {
+  width: 100% !important;
+  height: 100% !important;
+  padding: 0 !important;
+  canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
