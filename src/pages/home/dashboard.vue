@@ -29,8 +29,8 @@ const tableOption = ref<ITableOption<HH, IPaginationProps>>({
       render(_, idx) {
         return (
           <img
-            src={`https://picsum.photos/200/300?random=${idx}`}
-            class="aspect-square w-full object-cover"
+            src={`https://picsum.photos/200/200?random=${idx}`}
+            class="aspect-square w-50 object-cover"
             onClick={() => {
               previewImages.value = rawPreviewImages
               previewIndex.value = idx
@@ -49,7 +49,7 @@ const tableOption = ref<ITableOption<HH, IPaginationProps>>({
         const classId = `qr-code-${idx}`
         return (
           <div
-            class="aspect-square w-full fcc"
+            class="aspect-square w-50 fcc"
             onClick={() => {
               const canvas = document
                 .querySelector(`.${classId}`)
@@ -72,31 +72,31 @@ const tableOption = ref<ITableOption<HH, IPaginationProps>>({
       title: '身高',
       align: 'center',
     },
-    // {
-    //   key: 't1',
-    //   title: 't1',
-    //   align: 'center',
-    // },
-    // {
-    //   key: 't2',
-    //   title: 't2',
-    //   align: 'center',
-    // },
-    // {
-    //   key: 't3',
-    //   title: 't3',
-    //   align: 'center',
-    // },
-    // {
-    //   key: 't4',
-    //   title: 't4',
-    //   align: 'center',
-    // },
-    // {
-    //   key: 't5',
-    //   title: 't5',
-    //   align: 'center',
-    // },
+    {
+      key: 't1',
+      title: 't1',
+      align: 'center',
+    },
+    {
+      key: 't2',
+      title: 't2',
+      align: 'center',
+    },
+    {
+      key: 't3',
+      title: 't3',
+      align: 'center',
+    },
+    {
+      key: 't4',
+      title: 't4',
+      align: 'center',
+    },
+    {
+      key: 't5',
+      title: 't5',
+      align: 'center',
+    },
   ],
   data: Array.from({ length: 3000 }).map((_, index) => ({
     key: `${index}`,

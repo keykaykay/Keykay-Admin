@@ -24,7 +24,11 @@ const imageScale = ref(1)
 const imageRotate = ref(0)
 const currentIndex = ref(props.index)
 const currentImage = computed(() => {
-  if (currentIndex.value < 0 || currentIndex.value >= props.images.length || props.images.length === 0)
+  if (
+    currentIndex.value < 0
+    || currentIndex.value >= props.images.length
+    || props.images.length === 0
+  )
     return ''
 
   return props.images[currentIndex.value]
@@ -142,7 +146,7 @@ function handleInitialRatio() {
 }
 
 function handleGroupHidden(e: MouseEvent) {
-  if (e.target.className.includes('preview-group'))
+  if ((e.target as HTMLDivElement)?.className.includes('preview-group'))
     props.hidden()
 }
 
@@ -160,7 +164,8 @@ onUnmounted(() => {
 <template>
   <teleport to="body">
     <div
-      class="preview-group absolute bottom-0 left-0 right-0 top-0 z-100 fcc bg-black bg-opacity-60" @click="handleGroupHidden"
+      class="preview-group absolute bottom-0 left-0 right-0 top-0 z-100 fcc bg-black bg-opacity-60"
+      @click="handleGroupHidden"
     >
       <n-image
         ref="imageRef"
@@ -172,51 +177,86 @@ onUnmounted(() => {
         }"
         :src="currentImage"
         preview-disabled
+        :width="500"
+        :height="500"
         object-fit="scale-down"
         :on-load="handleImageLoadSuccess"
         :fallback-src="Logo"
         @mousedown="handleMouseDown"
       />
-      <div class="absolute bottom-10 h-10 flex flex items-center gap-6 rounded-5 bg-gray-900 bg-opacity-75 px-2 px-5 text-white">
+      <div
+        class="absolute bottom-10 h-10 flex flex items-center gap-6 rounded-5 bg-gray-900 bg-opacity-75 px-2 px-5 text-white"
+      >
         <n-tooltip trigger="hover">
           <template #trigger>
-            <div class="i-ph:arrow-left cursor-pointer text-xl" :class="[currentIndex === 0 ? 'text-gray cursor-not-allowed' : 'text-white cursor-pointer hover:text-#1e90ffFF']" @click="handleLeftEvent" />
+            <div
+              class="i-ph:arrow-left cursor-pointer text-xl"
+              :class="[
+                currentIndex === 0
+                  ? 'text-gray cursor-not-allowed'
+                  : 'text-white cursor-pointer hover:text-#1e90ffFF',
+              ]"
+              @click="handleLeftEvent"
+            />
           </template>
           上一张
         </n-tooltip>
         <n-tooltip trigger="hover">
           <template #trigger>
-            <div class="i-ph:arrow-right cursor-pointer text-xl" :class="[currentIndex === images.length - 1 ? 'text-gray cursor-not-allowed' : 'text-white cursor-pointer hover:text-#1e90ffFF']" @click="handleRightEvent" />
+            <div
+              class="i-ph:arrow-right cursor-pointer text-xl"
+              :class="[
+                currentIndex === images.length - 1
+                  ? 'text-gray cursor-not-allowed'
+                  : 'text-white cursor-pointer hover:text-#1e90ffFF',
+              ]"
+              @click="handleRightEvent"
+            />
           </template>
           下一张
         </n-tooltip>
         <n-tooltip trigger="hover">
           <template #trigger>
-            <div class="i-ph:magnifying-glass-minus cursor-pointer text-xl hover:text-#1e90ffFF" @click="handleCutEvent" />
+            <div
+              class="i-ph:magnifying-glass-minus cursor-pointer text-xl hover:text-#1e90ffFF"
+              @click="handleCutEvent"
+            />
           </template>
           缩小
         </n-tooltip>
         <n-tooltip trigger="hover">
           <template #trigger>
-            <div class="i-ph:magnifying-glass-plus cursor-pointer text-xl hover:text-#1e90ffFF" @click="handleAddEvent" />
+            <div
+              class="i-ph:magnifying-glass-plus cursor-pointer text-xl hover:text-#1e90ffFF"
+              @click="handleAddEvent"
+            />
           </template>
           放大
         </n-tooltip>
         <n-tooltip trigger="hover">
           <template #trigger>
-            <div class="i-ph:arrow-counter-clockwise-fill cursor-pointer text-xl hover:text-#1e90ffFF" @click="handleLeftRotate" />
+            <div
+              class="i-ph:arrow-counter-clockwise-fill cursor-pointer text-xl hover:text-#1e90ffFF"
+              @click="handleLeftRotate"
+            />
           </template>
           向左旋转
         </n-tooltip>
         <n-tooltip trigger="hover">
           <template #trigger>
-            <div class="i-ph:arrow-clockwise-fill cursor-pointer text-xl hover:text-#1e90ffFF" @click="handleRightRotate" />
+            <div
+              class="i-ph:arrow-clockwise-fill cursor-pointer text-xl hover:text-#1e90ffFF"
+              @click="handleRightRotate"
+            />
           </template>
           向右旋转
         </n-tooltip>
         <n-tooltip trigger="hover">
           <template #trigger>
-            <div class="i-ph:corners-out cursor-pointer text-xl hover:text-#1e90ffFF" @click="handleInitialRatio" />
+            <div
+              class="i-ph:corners-out cursor-pointer text-xl hover:text-#1e90ffFF"
+              @click="handleInitialRatio"
+            />
           </template>
           初始比例
         </n-tooltip>
