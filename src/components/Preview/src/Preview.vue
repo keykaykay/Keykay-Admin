@@ -177,8 +177,8 @@ onUnmounted(() => {
         }"
         :src="currentImage"
         preview-disabled
-        :width="500"
-        :height="500"
+        :width="600"
+        :height="600"
         object-fit="scale-down"
         :on-load="handleImageLoadSuccess"
         :fallback-src="Logo"
@@ -194,7 +194,7 @@ onUnmounted(() => {
               :class="[
                 currentIndex === 0
                   ? 'text-gray cursor-not-allowed'
-                  : 'text-white cursor-pointer hover:text-#1e90ffFF',
+                  : `text-white cursor-pointer hover:c-[var(--k-primary-color)]`,
               ]"
               @click="handleLeftEvent"
             />
@@ -208,7 +208,7 @@ onUnmounted(() => {
               :class="[
                 currentIndex === images.length - 1
                   ? 'text-gray cursor-not-allowed'
-                  : 'text-white cursor-pointer hover:text-#1e90ffFF',
+                  : `text-white cursor-pointer hover:c-[var(--k-primary-color)]`,
               ]"
               @click="handleRightEvent"
             />
@@ -218,7 +218,7 @@ onUnmounted(() => {
         <n-tooltip trigger="hover">
           <template #trigger>
             <div
-              class="i-ph:magnifying-glass-minus cursor-pointer text-xl hover:text-#1e90ffFF"
+              class="i-ph:magnifying-glass-minus cursor-pointer text-xl hover:c-[var(--k-primary-color)]"
               @click="handleCutEvent"
             />
           </template>
@@ -227,7 +227,7 @@ onUnmounted(() => {
         <n-tooltip trigger="hover">
           <template #trigger>
             <div
-              class="i-ph:magnifying-glass-plus cursor-pointer text-xl hover:text-#1e90ffFF"
+              class="i-ph:magnifying-glass-plus cursor-pointer text-xl hover:c-[var(--k-primary-color)]"
               @click="handleAddEvent"
             />
           </template>
@@ -236,7 +236,7 @@ onUnmounted(() => {
         <n-tooltip trigger="hover">
           <template #trigger>
             <div
-              class="i-ph:arrow-counter-clockwise-fill cursor-pointer text-xl hover:text-#1e90ffFF"
+              class="i-ph:arrow-counter-clockwise-fill cursor-pointer text-xl hover:c-[var(--k-primary-color)]"
               @click="handleLeftRotate"
             />
           </template>
@@ -245,7 +245,7 @@ onUnmounted(() => {
         <n-tooltip trigger="hover">
           <template #trigger>
             <div
-              class="i-ph:arrow-clockwise-fill cursor-pointer text-xl hover:text-#1e90ffFF"
+              class="i-ph:arrow-clockwise-fill cursor-pointer text-xl hover:c-[var(--k-primary-color)]"
               @click="handleRightRotate"
             />
           </template>
@@ -254,7 +254,7 @@ onUnmounted(() => {
         <n-tooltip trigger="hover">
           <template #trigger>
             <div
-              class="i-ph:corners-out cursor-pointer text-xl hover:text-#1e90ffFF"
+              class="i-ph:corners-out cursor-pointer text-xl hover:c-[var(--k-primary-color)]"
               @click="handleInitialRatio"
             />
           </template>
@@ -262,7 +262,7 @@ onUnmounted(() => {
         </n-tooltip>
         <n-tooltip trigger="hover">
           <template #trigger>
-            <div class="i-ph:x cursor-pointer text-xl hover:text-#1e90ffFF" @click="hidden" />
+            <div class="i-ph:x cursor-pointer text-xl hover:c-[var(--k-primary-color)]" @click="hidden" />
           </template>
           关闭
         </n-tooltip>

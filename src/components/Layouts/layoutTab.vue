@@ -124,10 +124,7 @@ useEventListener(window, 'resize', () => {
     <VueDraggable ref="draggableRef" v-model="appStore.tabsList" :animation="300" :class="`h-full flex flex-1 items-center gap-2 overflow-hidden ${showScrollButton ? '' : 'mx-2'}`">
       <template v-for="element in appStore.tabsList" :key="element.key">
         <div
-          class="group position-relative h-7 flex flex-shrink-0 cursor-pointer items-center rounded-lg bg-white px-2 shadow dark:bg-#27272c hover:text-#1e90ffFF hover:opacity-80"
-          :class="[
-            appStore.activeKey === element.path ? 'bg-#1e90ffFF! text-#fff!' : '',
-          ]"
+          :class="`group position-relative h-7 flex flex-shrink-0 cursor-pointer items-center rounded-lg bg-white px-2 shadow dark:bg-#27272c hover:opacity-80 ${appStore.activeKey === element.path ? `bg-[var(--k-primary-color)]! color-#fff!` : ''} hover:c-[var(--k-primary-color)]`"
           @click="tabsEvent(element)"
           @contextmenu="handleContextMenu($event, element)"
         >

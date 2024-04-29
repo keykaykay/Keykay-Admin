@@ -30,28 +30,30 @@ export function renderLabel(title: string) {
 }
 
 export function handleRouteToMenu(item: AppRouteRecordRaw): MenuOption {
-  if ((item.children.length > 0 || item.pid === '/') && !item.meta?.icon) {
-    console.warn(`
-    请为${item.path}路由配置index.vue
-    <route lang="json5">
-    {
-      meta: {
-        title: '???',
-        icon: '???',
-        order: 1
-      }
-    }
-    </route>
-  `)
-  }
+  // if ((item.children.length > 0 || item.pid === '/') && !item.meta?.icon) {
+  //   console.warn(`
+  //   请为${item.path}路由配置index.vue
+  //   <route lang="json5">
+  //   {
+  //     meta: {
+  //       title: '???',
+  //       icon: '???',
+  //       order: 1
+  //     }
+  //   }
+  //   </route>
+  // `)
+  // }
+  const iconPath = item.meta?.icon || (item.paths?.length === 0 ? 'i-mdi:view-dashboard' : '')
+  const icon = renderIcon(iconPath)
   const target = {
     label: renderLabel(item.meta?.title || item.name as string || item.path as string),
-    // icon: renderIcon(item.meta?.icon || ''),
+    icon,
     key: item.path as string,
     children: item.children?.map(handleRouteToMenu) || [],
   } as MenuOption
-  if (item.meta?.icon)
-    target.icon = renderIcon(item.meta.icon)
+  if (!iconPath)
+    delete target.icon
 
   if (item.children.length === 0)
     delete target.children

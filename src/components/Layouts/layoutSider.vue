@@ -6,15 +6,16 @@ import { useAppStore } from '@/store/app'
 
 const appStore = useAppStore()
 const { isMobile } = useMobile()
+const inverted = computed(() => appStore.themeSettings.inverted)
 </script>
 
 <template>
   <n-layout-sider
-    v-if="appStore.model === 'left' && !isMobile"
+    v-if="appStore.themeSettings.menuMode === 'left' && !isMobile"
     :content-style="{
       height: '100%',
     }"
-    inverted
+    :inverted="inverted"
     bordered
     collapse-mode="width"
     :collapsed-width="64"

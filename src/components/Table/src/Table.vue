@@ -443,7 +443,7 @@ function handleSearchCollapsed() {
                   <n-button strong secondary type="tertiary" @click="handleSearchResetEvent">
                     重置
                   </n-button>
-                  <n-button type="info" @click="handleSearchQueryEvent">
+                  <n-button type="primary" @click="handleSearchQueryEvent">
                     查询
                   </n-button>
                   <n-button v-if="searchFormRawData.length > 2" @click="handleSearchCollapsed">
@@ -457,7 +457,7 @@ function handleSearchCollapsed() {
           </div>
           <div v-if="!hiddenHeaderHandle" class="flex justify-between">
             <div>
-              <n-button v-if="!hiddenHeaderLeft" type="info" @click="handleAddEvent">
+              <n-button v-if="!hiddenHeaderLeft" type="primary" @click="handleAddEvent">
                 新建
                 <template #icon>
                   <div class="i-material-symbols:add" />
@@ -492,7 +492,7 @@ function handleSearchCollapsed() {
                 <n-scrollbar class="max-h-300px w-200px">
                   <div class="w-full">
                     <div class="my-1 w-full flex items-center justify-end">
-                      <n-button size="tiny" strong secondary type="info">
+                      <n-button size="tiny" strong secondary type="primary">
                         重置
                       </n-button>
                     </div>
@@ -670,7 +670,7 @@ function handleSearchCollapsed() {
           <n-button @click="modal = false">
             取消
           </n-button>
-          <n-button type="info" @click="handleEditOrAddEvent">
+          <n-button type="primary" @click="handleEditOrAddEvent">
             确认
           </n-button>
         </n-space>

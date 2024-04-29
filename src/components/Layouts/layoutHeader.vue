@@ -2,19 +2,18 @@
 import TopMenu from './topMenu.vue'
 import SysSetting from './sysSetting.vue'
 import MobileMenu from './mobileMenu.vue'
-import ToggleTheme from '@/components/SwitchTheme/src/ToggleTheme.vue'
 
 import { useMobile } from '@/hooks/useDevice'
 import { useAppStore } from '@/store/app'
-import { VITE_APP_TITLE, primaryColor } from '@/utils/constants'
+import { VITE_APP_TITLE } from '@/utils/constants'
 import { localCacheStorage } from '@/utils/storage'
 
 const props = defineProps<{
   wrapRef: HTMLElement | undefined
 }>()
-
 const router = useRouter()
 const appStore = useAppStore()
+const isDark = useDark()
 const { isMobile } = useMobile()
 const { isFullscreen, toggle } = useFullscreen(props.wrapRef)
 const mobileMenu = ref(false)
@@ -38,7 +37,7 @@ watch([isMobile], () => {
     class="relative h-12 w-full flex items-center justify-between shadow dark:shadow-slate-700"
   >
     <div
-      v-if="appStore.model === 'top' && !isMobile"
+      v-if="appStore.themeSettings.menuMode === 'top' && !isMobile"
       class="ml-2 min-w-130px flex cursor-pointer items-center"
       @click="router.push('/')"
     >
@@ -50,24 +49,37 @@ watch([isMobile], () => {
         enter-active-class="animate__animated animate__flipInX"
         appear
       >
-        <div class="ml-2 text-xl">
+        <div :class="`ml-2 text-xl ${(isDark) ? 'text-white' : 'text-black'}`">
           {{ VITE_APP_TITLE }}
         </div>
       </transition>
     </div>
-    <TopMenu v-if="appStore.model === 'top' && !isMobile" class="flex-1" />
-    <div
-      v-if="appStore.model === 'left' || isMobile"
-      class="ml-2 cursor-pointer text-xl"
-      :class="[
-        isMobile
-          ? 'i-line-md:menu-fold-left'
-          : appStore.collapsed
-            ? 'i-line-md:menu-fold-right'
-            : 'i-line-md:menu-fold-left',
-      ]"
-      @click="handleChangeCollapse"
-    />
+    <TopMenu v-if="appStore.themeSettings.menuMode === 'top' && !isMobile" class="flex-1" />
+    <div class="ml-2 fcc">
+      <div
+        v-if="appStore.themeSettings.menuMode === 'left' || isMobile"
+        class="cursor-pointer text-xl"
+        :class="[
+          isMobile
+            ? 'i-line-md:menu-fold-left'
+            : appStore.collapsed
+              ? 'i-line-md:menu-fold-right'
+              : 'i-line-md:menu-fold-left',
+        ]"
+        @click="handleChangeCollapse"
+      />
+      <n-breadcrumb class="ml-4">
+        <n-breadcrumb-item>
+          北京总行
+        </n-breadcrumb-item>
+        <n-breadcrumb-item>
+          天津分行
+        </n-breadcrumb-item>
+        <n-breadcrumb-item>
+          平山道支行
+        </n-breadcrumb-item>
+      </n-breadcrumb>
+    </div>
     <div class="mr-2 min-w-130px flex items-center justify-end gap-3">
       <div>
         <n-tooltip trigger="hover">
@@ -109,15 +121,13 @@ watch([isMobile], () => {
           </template>
           <n-grid :cols="1">
             <n-gi
-              class="flex cursor-pointer items-center p-2"
-              :class="`hover:text-${primaryColor}`"
+              class="flex cursor-pointer items-center p-2 hover:c-[var(--k-primary-color)]"
             >
               <div class="i-material-symbols:lock mr-1" />
               <div>修改密码</div>
             </n-gi>
             <n-gi
-              class="flex cursor-pointer items-center p-2"
-              :class="`hover:text-${primaryColor}`"
+              class="flex cursor-pointer items-center p-2 hover:c-[var(--k-primary-color)]"
               @click="appStore.logout"
             >
               <div class="i-ri:logout-box-r-fill mr-1" />

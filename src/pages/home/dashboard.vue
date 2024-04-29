@@ -30,11 +30,12 @@ const tableOption = ref<ITableOption<HH, IPaginationProps>>({
         return (
           <img
             src={`https://picsum.photos/200/200?random=${idx}`}
-            class="aspect-square w-50 object-cover"
+            class="aspect-square w-full object-cover"
             onClick={() => {
               previewImages.value = rawPreviewImages
               previewIndex.value = idx
               previewShow.value = true
+              window.$message.success('fsfdsafds')
             }}
           />
         )
@@ -49,7 +50,7 @@ const tableOption = ref<ITableOption<HH, IPaginationProps>>({
         const classId = `qr-code-${idx}`
         return (
           <div
-            class="aspect-square w-50 fcc"
+            class="aspect-square w-full fcc"
             onClick={() => {
               const canvas = document
                 .querySelector(`.${classId}`)
@@ -98,7 +99,7 @@ const tableOption = ref<ITableOption<HH, IPaginationProps>>({
       align: 'center',
     },
   ],
-  data: Array.from({ length: 3000 }).map((_, index) => ({
+  data: Array.from({ length: 100000 }).map((_, index) => ({
     key: `${index}`,
     name: `name${index}`,
     age: index,

@@ -8,7 +8,7 @@ const router = useRouter()
   <div class="h-full w-full flex items-center justify-center">
     <n-empty :show-icon="false" size="huge">
       <template #extra>
-        <n-button type="info" @click="router.push('/')">
+        <n-button type="primary" @click="router.push('/')">
           返回首页
         </n-button>
       </template>

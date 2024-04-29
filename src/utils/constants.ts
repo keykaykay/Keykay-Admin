@@ -18,18 +18,3 @@ export const ECHARTS_COLOR: string[] = [
   '#5b4947',
   '#7ba3a8',
 ]
-
-export const primaryColor = '#1e90ffFF'
-export const secondaryColor = '#70a1ffFF'
-
-export const themeOverrides: GlobalThemeOverrides = {
-  common: {
-    primaryColorHover: secondaryColor,
-    primaryColor,
-    primaryColorPressed: secondaryColor,
-    primaryColorSuppl: primaryColor,
-  },
-  LoadingBar: {
-    colorLoading: primaryColor,
-  },
-}

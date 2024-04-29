@@ -43,7 +43,7 @@ watch(isMobile, () => {
 
 <template>
   <div class="whf flex">
-    <div v-if="!isMobile" class="relative h-full w-1/2 from-#2575fc to-#6a11cb00 bg-gradient-to-r">
+    <div v-if="!isMobile" class="relative h-full w-1/2 from-[var(--k-primary-color)] to-#6a11cb00 bg-gradient-to-r">
       <div class="enter-x absolute left-5 top-5 fcc overflow-hidden">
         <img :src="LogoImg" alt="logo" class="h-16 w-16 scale-120 object-cover">
         <span class="ml-2 text-xl font-700">{{ VITE_APP_TITLE }}</span>
@@ -53,7 +53,7 @@ watch(isMobile, () => {
         <span class="text-3xl font-bold">欢迎使用{{ VITE_APP_TITLE }}</span>
       </div>
     </div>
-    <div class="relative h-full fcc" :class="`${isMobile ? 'w-full from-#2575fc to-#6a11cb00 bg-gradient-to-r' : 'w-1/2'}`">
+    <div class="relative h-full fcc" :class="`${isMobile ? 'w-full from-[var(--k-primary-color)] to-#6a11cb00 bg-gradient-to-r' : 'w-1/2'}`">
       <div v-if="isMobile" class="enter-x absolute left-5 top-5 fcc overflow-hidden">
         <img :src="LogoImg" alt="logo" class="h-12 w-12 scale-120 object-cover">
         <span class="ml-2 text-xl font-700">{{ VITE_APP_TITLE }}</span>

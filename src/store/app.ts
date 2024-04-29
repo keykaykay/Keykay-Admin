@@ -4,21 +4,22 @@ import dayjs from 'dayjs'
 import { getMenus, handleRouteToMenu } from '@/utils/tools'
 import router from '@/router'
 import { localCacheStorage } from '@/utils/storage'
+import { getThemeSettings } from '@/utils/settings'
 
 interface IApp {
   collapsed: boolean
-  model: 'left' | 'top'
   tabsList: AppRouteTab[]
   activeKey: string
+  themeSettings: App.ThemeSetting
 }
 
 export const useAppStore = defineStore({
   id: 'app',
   state: (): IApp => ({
     collapsed: false,
-    model: 'left',
     tabsList: [],
     activeKey: '',
+    themeSettings: getThemeSettings(),
   }),
   getters: {
     menuOptions(): MenuOption[] {
@@ -27,6 +28,25 @@ export const useAppStore = defineStore({
     },
   },
   actions: {
+    updateCssVars() {
+      const cssVars = this.themeSettings.cssVars
+      Object.keys(cssVars).forEach((key) => {
+        useCssVar(key, document.documentElement).value = cssVars[key]
+      })
+    },
+    updateThemeSettings(val: string) {
+      const originThemeSettings = this.themeSettings
+      this.themeSettings = getThemeSettings(val)
+      this.themeSettings.inverted = originThemeSettings.inverted
+      this.themeSettings.menuMode = originThemeSettings.menuMode
+      this.updateCssVars()
+    },
+    resetTheme() {
+      this.themeSettings = getThemeSettings()
+      this.updateCssVars()
+      const isDark = useDark()
+      isDark.value = false
+    },
     async login(data: ILoginForm) {
       localCacheStorage.set('token', `${data.identifier}`)
       localCacheStorage.set('user', {
@@ -44,7 +64,7 @@ export const useAppStore = defineStore({
       }, 250)
     },
     async logout() {
-      window.$dialog.warning({
+      window.$dialog.info({
         title: '提示',
         content: '确定退出登录吗？',
         positiveText: '确定',

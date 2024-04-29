@@ -7,7 +7,7 @@ export interface CreateStorageParams {
   timeout: number
 }
 
-type CacheKey = 'token' | 'routes' | 'user'
+type CacheKey = 'cacheKeys' | 'token' | 'routes' | 'user' | 'themeSettings'
 
 class WebStorage {
   private storage: Storage
@@ -44,6 +44,12 @@ class WebStorage {
       ? aesEncryption(stringData)
       : stringData
     this.storage.setItem(this.getKey(key), stringifyValue)
+    if (key !== 'cacheKeys') {
+      let keys = this.get<string[]>('cacheKeys') || []
+      keys.push(key)
+      keys = [...new Set(keys)]
+      this.set('cacheKeys', keys)
+    }
   }
 
   get<T = any>(key: CacheKey, def: any = null): T | void {
@@ -76,9 +82,10 @@ class WebStorage {
    * Delete all caches of this instance
    */
   clear(): void {
-    // this.storage.clear()
-    localStorage.clear()
-    sessionStorage.clear()
+    this.get<string[]>('cacheKeys')!.forEach((key) => {
+      this.remove(key as CacheKey)
+    })
+    this.remove('cacheKeys')
   }
 }
 

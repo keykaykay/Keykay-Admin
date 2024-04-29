@@ -6,7 +6,7 @@ function toggleDark() {
   isDark.value = !isDark.value
 }
 
-function toggleTheme(event: MouseEvent, openAnimation: boolean) {
+async function toggleTheme(event: MouseEvent, openAnimation: boolean) {
   if (!openAnimation) {
     toggleDark()
     return
@@ -19,18 +19,16 @@ function toggleTheme(event: MouseEvent, openAnimation: boolean) {
   const transition = document.startViewTransition(async () => {
     toggleDark()
   })
-
   const x = event.clientX
   const y = event.clientY
   const endRadius = Math.hypot(
     Math.max(x, innerWidth - x),
     Math.max(y, innerHeight - y),
   )
-
   transition.ready.then(() => {
     const clipPath = [
-      `circle(0px at ${x}px ${y}px)`,
-      `circle(${endRadius}px at ${x}px ${y}px)`,
+    `circle(0px at ${x}px ${y}px)`,
+    `circle(${endRadius}px at ${x}px ${y}px)`,
     ]
     document.documentElement.animate(
       {
@@ -50,12 +48,13 @@ function toggleTheme(event: MouseEvent, openAnimation: boolean) {
 
 <template>
   <div
-    id="toggle-btn" :class="[isDark ? 'active' : '']" @click="(e) => toggleTheme(e, false)"
+    id="toggle-btn" :class="[isDark ? 'active' : '']" @click="(e) => toggleTheme(e, true)"
   />
 </template>
 
 <style lang="scss" scoped>
 #toggle-btn {
+  view-transition-name: toggle-btn;
   position: relative;
   margin: auto;
   width: 200px;
@@ -124,6 +123,11 @@ function toggleTheme(event: MouseEvent, openAnimation: boolean) {
       135px 20px 0 10px #abc1d9,
       155px 15px 0 10px #abc1d9,
       190px -20px 0 10px #abc1d9;
+  }
+  &:hover {
+    border: 2px solid var(--k-secondary-color);
+    filter: contrast(90%) brightness(110%);
+    scale: 1.05;
   }
 }
 #toggle-btn:hover::before {

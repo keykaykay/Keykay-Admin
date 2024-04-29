@@ -9,7 +9,9 @@ const menuInstRef = ref<MenuInst | null>(null)
 const router = useRouter()
 const appStore = useAppStore()
 const { isMobile } = useMobile()
-
+const isDark = useDark()
+const inverted = computed(() => appStore.themeSettings.inverted)
+const titleColorStatus = computed(() => appStore.themeSettings.inverted || isDark.value)
 const refreshExpand = computed(() => appStore.activeKey)
 watch(refreshExpand, () => {
   menuInstRef.value?.showOption(appStore.activeKey)
@@ -31,18 +33,18 @@ watch(refreshExpand, () => {
         enter-active-class="animate__animated animate__flipInX"
         appear
       >
-        <div v-show="!appStore.collapsed || isMobile" class="mt-1 text-base">
+        <div v-show="!appStore.collapsed || isMobile" :class="`mt-1 text-base ${(titleColorStatus) ? 'text-white' : 'text-black'}`">
           {{ VITE_APP_TITLE }}
         </div>
       </transition>
     </div>
     <NMenu
       ref="menuInstRef"
-      inverted
+      :inverted="inverted"
       :collapsed-width="64"
       :collapsed-icon-size="22"
-      :indent="30"
-      :root-indent="10"
+      :indent="28"
+      :root-indent="14"
       :options="appStore.menuOptions"
       accordion
       :value="appStore.activeKey"

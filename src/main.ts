@@ -8,11 +8,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import { setupLoadingDirective } from '@/directives/loading'
-import { setupNaiveDiscreteApi } from '@/utils/naiveDiscreteApi'
 
 function bootstrap() {
   const app = createApp(App)
-  app.use(setupNaiveDiscreteApi)
   app.use(setupLoadingDirective)
   app.use(router)
   app.use(store)

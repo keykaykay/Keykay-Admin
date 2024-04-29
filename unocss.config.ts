@@ -21,10 +21,8 @@ export default defineConfig({
   safelist: [
     'i-mdi:view-dashboard',
     'i-mdi:account',
-    'bg-#1e90ffFF',
     'text-white',
-    'hover:text-#1e90ffFF',
-    'color-#70a1ffFF',
+    'color-#70a1ff',
     'text-#5ab1ef',
     'text-#fa6e86',
     'text-#19d4ae',

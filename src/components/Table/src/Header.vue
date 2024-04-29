@@ -76,7 +76,7 @@ function handleFixed(fixed: 'left' | 'right' | undefined, el: TDataColumn<any>) 
             <n-button strong secondary type="tertiary" @click="handleSearchResetEvent">
               重置
             </n-button>
-            <n-button type="info" @click="handleSearchQueryEvent">
+            <n-button type="primary" @click="handleSearchQueryEvent">
               查询
             </n-button>
             <n-button dashed @click="collapsed = !collapsed">
@@ -92,7 +92,7 @@ function handleFixed(fixed: 'left' | 'right' | undefined, el: TDataColumn<any>) 
     </div>
     <div class="mt-2 flex justify-between">
       <div>
-        <n-button type="info" @click="createEvent">
+        <n-button type="primary" @click="createEvent">
           新建
           <template #icon>
             <div class="i-material-symbols:add" />

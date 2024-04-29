@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { secondaryColor } from '@/utils/constants'
-
 withDefaults(defineProps<{
   loading: boolean
 }>(), {
@@ -10,6 +8,6 @@ withDefaults(defineProps<{
 
 <template>
   <div v-if="loading" class="absolute left-0 top-0 z-10 h-full w-full flex items-center justify-center bg-white dark:bg-#18181c bg-opacity-80!">
-    <div :class="`i-mdi-light:loading animate-spin text-5xl color-${secondaryColor}`" />
+    <div class="i-mdi-light:loading animate-spin text-5xl text-[var(--k-primary-color)]" />
   </div>
 </template>

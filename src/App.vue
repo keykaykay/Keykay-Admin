@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { darkTheme, dateZhCN, zhCN } from 'naive-ui'
-import { themeOverrides } from '@/utils/constants'
+import { dateZhCN, zhCN } from 'naive-ui'
+import { useTheme } from '@/hooks/useTheme'
 
-const isDark = useDark()
-const theme = computed(() => isDark.value ? darkTheme : null)
+const { configTheme, themeOverrides } = useTheme()
 </script>
 
 <template>
@@ -12,7 +11,7 @@ const theme = computed(() => isDark.value ? darkTheme : null)
     :locale="zhCN"
     :date-locale="dateZhCN"
     :theme-overrides="themeOverrides"
-    :theme="theme"
+    :theme="configTheme"
   >
     <AppProvider>
       <router-view />
