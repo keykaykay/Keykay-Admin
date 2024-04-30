@@ -3,7 +3,7 @@ import { setupLayouts } from 'virtual:generated-layouts'
 import generatedRoutes from 'virtual:generated-pages'
 import { useRouterGuards } from './guard'
 
-const routes = setupLayouts(generatedRoutes)
+export const routes = setupLayouts(generatedRoutes)
 const router = createRouter({
   routes,
   history: createWebHistory(import.meta.env.BASE_URL),

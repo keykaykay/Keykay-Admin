@@ -27,6 +27,7 @@ declare global {
 
   interface Document {
     startViewTransition: (updateCallback: () => Promise<void> | void) => ViewTransition
+    createDocumentTransition: () => DocumentTransition
   }
 
   interface ViewTransition {
@@ -34,6 +35,10 @@ declare global {
     ready: Promise<void>
     updateCallbackDone: Promise<void>
     skipTransition: () => void
+  }
+
+  interface DocumentTransition {
+    start: (cb: () => Promise<void> | void) => void
   }
 
   interface CSSStyleDeclaration {

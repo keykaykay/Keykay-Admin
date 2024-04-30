@@ -14,7 +14,7 @@ const { configTheme, themeOverrides } = useTheme()
     :theme="configTheme"
   >
     <AppProvider>
-      <router-view />
+      <RouterView />
     </AppProvider>
   </n-config-provider>
 </template>

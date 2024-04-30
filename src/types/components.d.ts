@@ -57,6 +57,8 @@ declare module 'vue' {
     Preview: typeof import('./../components/Preview/src/Preview.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Starport: typeof import('vue-starport')['Starport']
+    StarportCarrier: typeof import('vue-starport')['StarportCarrier']
     SwitchTheme: typeof import('./../components/SwitchTheme/src/SwitchTheme.vue')['default']
     SysSetting: typeof import('./../components/Layouts/sysSetting.vue')['default']
     Table: typeof import('./../components/Table/src/Table.vue')['default']

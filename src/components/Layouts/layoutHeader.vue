@@ -7,11 +7,13 @@ import { useMobile } from '@/hooks/useDevice'
 import { useAppStore } from '@/store/app'
 import { VITE_APP_TITLE } from '@/utils/constants'
 import { localCacheStorage } from '@/utils/storage'
+import { routes } from '@/router'
 
 const props = defineProps<{
   wrapRef: HTMLElement | undefined
 }>()
 const router = useRouter()
+const route = useRoute()
 const appStore = useAppStore()
 const isDark = useDark()
 const { isMobile } = useMobile()
@@ -29,6 +31,26 @@ function handleChangeCollapse() {
 
 watch([isMobile], () => {
   mobileMenu.value = false
+})
+
+watch(() => route.path, () => {
+  console.log(routes)
+  console.log(router.getRoutes())
+  const originPaths = route.path.split('/')
+  const result: AppRouteRecordRaw[] = []
+  function run() {
+    if (originPaths.length > 1) {
+      console.log(originPaths.join('/'))
+      const item = routes.find(item => item.path === originPaths.join('/'))
+      result.push(item as AppRouteRecordRaw)
+      originPaths.pop()
+      run()
+    }
+  }
+  run()
+  console.log(result)
+}, {
+  immediate: true,
 })
 </script>
 
@@ -122,6 +144,7 @@ watch([isMobile], () => {
           <n-grid :cols="1">
             <n-gi
               class="flex cursor-pointer items-center p-2 hover:c-[var(--k-primary-color)]"
+              @click="() => router.push('/user/info')"
             >
               <div class="i-material-symbols:lock mr-1" />
               <div>修改密码</div>
