@@ -7,6 +7,7 @@
 
 <route lang="json5">
 {
+  redirect: '/test/haha',
   meta: {
     title: '测试',
     icon: 'i-mdi:view-dashboard',

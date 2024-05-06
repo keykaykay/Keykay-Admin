@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { MenuOption } from 'naive-ui'
 import TopMenu from './topMenu.vue'
 import SysSetting from './sysSetting.vue'
 import MobileMenu from './mobileMenu.vue'
@@ -7,7 +8,6 @@ import { useMobile } from '@/hooks/useDevice'
 import { useAppStore } from '@/store/app'
 import { VITE_APP_TITLE } from '@/utils/constants'
 import { localCacheStorage } from '@/utils/storage'
-import { routes } from '@/router'
 
 const props = defineProps<{
   wrapRef: HTMLElement | undefined
@@ -33,22 +33,40 @@ watch([isMobile], () => {
   mobileMenu.value = false
 })
 
+const breadcrumbData = ref<MenuOption[]>([])
+function handleBreadcrumbClick(payload: MenuOption) {
+  if (payload.children) {
+    const firstItem = payload.children?.[0]
+    appStore.handleMenuItemClick(firstItem?.key as string)
+  }
+  else {
+    appStore.handleMenuItemClick(payload.key as string)
+  }
+}
 watch(() => route.path, () => {
-  console.log(routes)
-  console.log(router.getRoutes())
+  if (route.path.includes('/redirect'))
+    return
+
   const originPaths = route.path.split('/')
-  const result: AppRouteRecordRaw[] = []
-  function run() {
-    if (originPaths.length > 1) {
-      console.log(originPaths.join('/'))
-      const item = routes.find(item => item.path === originPaths.join('/'))
-      result.push(item as AppRouteRecordRaw)
-      originPaths.pop()
-      run()
+  const target = appStore.menuOptions.find(item => item.key === `/${originPaths[1]}`)!
+  const result: MenuOption[] = []
+  function run(items: MenuOption[], fTarget?: MenuOption) {
+    const itemTarget = items.find(item => item.key === route.path)
+    if (!itemTarget) {
+      if (items.length > 0 && fTarget)
+        result.push(fTarget)
+
+      items.forEach((item) => {
+        run(item.children || [], item)
+      })
+    }
+    else {
+      fTarget && result.push(fTarget)
+      result.push(itemTarget)
     }
   }
-  run()
-  console.log(result)
+  run([target])
+  breadcrumbData.value = result as any
 }, {
   immediate: true,
 })
@@ -91,14 +109,8 @@ watch(() => route.path, () => {
         @click="handleChangeCollapse"
       />
       <n-breadcrumb class="ml-4">
-        <n-breadcrumb-item>
-          北京总行
-        </n-breadcrumb-item>
-        <n-breadcrumb-item>
-          天津分行
-        </n-breadcrumb-item>
-        <n-breadcrumb-item>
-          平山道支行
+        <n-breadcrumb-item v-for="item in breadcrumbData" :key="item.key" @click="() => handleBreadcrumbClick(item as any)">
+          {{ item.name }}
         </n-breadcrumb-item>
       </n-breadcrumb>
     </div>

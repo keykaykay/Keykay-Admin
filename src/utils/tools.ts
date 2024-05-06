@@ -46,11 +46,13 @@ export function handleRouteToMenu(item: AppRouteRecordRaw): MenuOption {
   // }
   const iconPath = item.meta?.icon || (item.paths?.length === 0 ? 'i-mdi:view-dashboard' : '')
   const icon = renderIcon(iconPath)
+  const title = item.meta?.title || item.name as string || item.path as string
   const target = {
-    label: renderLabel(item.meta?.title || item.name as string || item.path as string),
+    label: renderLabel(title),
     icon,
     key: item.path as string,
     children: item.children?.map(handleRouteToMenu) || [],
+    name: title,
   } as MenuOption
   if (!iconPath)
     delete target.icon
