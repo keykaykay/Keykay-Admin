@@ -114,7 +114,7 @@ watch(() => route.path, () => {
         </n-breadcrumb-item>
       </n-breadcrumb>
     </div>
-    <div class="mr-2 min-w-130px flex items-center justify-end gap-3">
+    <div class="mr-4 min-w-130px flex items-center justify-end gap-4">
       <div>
         <n-tooltip trigger="hover">
           <template #trigger>
@@ -143,14 +143,11 @@ watch(() => route.path, () => {
         </n-tooltip>
       </div>
       <div>
-        <n-popover trigger="hover">
+        <n-popover placement="bottom">
           <template #trigger>
             <div class="group flex cursor-pointer items-center">
               <n-avatar round size="small" src="https://picsum.photos/200" />
-              <span class="ml-1">{{ user?.username }}</span>
-              <div
-                class="i-material-symbols-light:keyboard-arrow-down text-xl transition-all duration-300 group-hover:rotate-180"
-              />
+              <span class="ml-2 min-w-10 text-center">{{ user?.username }}</span>
             </div>
           </template>
           <n-grid :cols="1">

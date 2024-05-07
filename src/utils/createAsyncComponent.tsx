@@ -19,7 +19,7 @@ export function createAsyncComponent<
     new (): ComponentPublicInstance
   },
 >(loader: AsyncComponentLoader<T>, options: Options = {}) {
-  const { size = 24, delay = 100, timeout = 30000, loading = true, retry = false } = options
+  const { size = 24, delay = 200, timeout = 30000, loading = true, retry = false } = options
   return defineAsyncComponent({
     loader: () => {
       return new Promise<TC<T>>((resolve) => {

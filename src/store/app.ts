@@ -52,16 +52,14 @@ export const useAppStore = defineStore({
       localCacheStorage.set('user', {
         username: data.identifier,
       })
-      window.$message.success('登录成功')
       setTimeout(() => {
         router.replace('/')
         window.$notification.success({
-          title: data.identifier,
-          content: '欢迎回来',
-          description: `当前时间${dayjs().format('YYYY-MM-DD HH:mm:ss')}`,
+          title: '登录成功',
+          content: `欢迎回来，${data.identifier}`,
           duration: 1500,
         })
-      }, 250)
+      }, 200)
     },
     async logout() {
       window.$dialog.info({
@@ -72,6 +70,7 @@ export const useAppStore = defineStore({
         closable: false,
         closeOnEsc: false,
         maskClosable: false,
+        autoFocus: false,
         onPositiveClick: async () => {
           this.clearTab()
           localCacheStorage.clear()

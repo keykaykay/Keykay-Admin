@@ -16,7 +16,7 @@ export function useTheme() {
       ['message', 'dialog', 'notification', 'loadingBar'],
       {
         configProviderProps: {
-          themeOverrides: isDark.value ? appStore.themeSettings.themeOverrides : null,
+          themeOverrides: appStore.themeSettings.themeOverrides,
           theme: isDark.value ? darkTheme : null,
         },
       },
