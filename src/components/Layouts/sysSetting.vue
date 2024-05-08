@@ -34,10 +34,6 @@ const debounceUpdateThemeColor = _.debounce(handleUpdateThemeColor)
         主题模式
       </n-divider>
       <ToggleTheme />
-      <div class="mt-4 flex items-center justify-between">
-        <div>深色侧边栏</div>
-        <n-switch v-model:value="appStore.themeSettings.inverted" />
-      </div>
       <n-divider title-placement="center">
         导航栏模式
       </n-divider>
@@ -80,8 +76,39 @@ const debounceUpdateThemeColor = _.debounce(handleUpdateThemeColor)
         主题颜色
       </n-divider>
       <div class="mt-4 flex items-center justify-between">
+        <div>深色侧边栏</div>
+        <n-switch v-model:value="appStore.themeSettings.inverted" />
+      </div>
+      <div class="mt-4 flex items-center justify-between">
+        <div>灰度模式</div>
+        <n-switch v-model:value="appStore.themeSettings.grayMode" />
+      </div>
+      <div class="mt-4 flex items-center justify-between">
         <div>主色</div>
         <n-color-picker :value="appStore.themeSettings.themeColor" :show-alpha="false" class="w-24" :modes="['hex']" @update:value="(val) => debounceUpdateThemeColor(val)" />
+      </div>
+      <n-divider title-placement="center">
+        页面功能
+      </n-divider>
+      <div class="mt-4 flex items-center justify-between">
+        <div>切换动画</div>
+        <n-select
+          v-model:value="appStore.themeSettings.animateType"
+          class="w-30"
+          :options="appStore.themeSettings.animateOptions"
+        />
+      </div>
+      <div class="mt-4 flex items-center justify-between">
+        <div>显示面包屑</div>
+        <n-switch v-model:value="appStore.themeSettings.showBreadcrumb" />
+      </div>
+      <div class="mt-4 flex items-center justify-between">
+        <div>显示标签栏</div>
+        <n-switch v-model:value="appStore.themeSettings.showTabBar" />
+      </div>
+      <div class="mt-4 flex items-center justify-between">
+        <div>显示底部</div>
+        <n-switch v-model:value="appStore.themeSettings.showFooter" />
       </div>
       <template #footer>
         <n-button type="primary" @click="appStore.resetTheme">

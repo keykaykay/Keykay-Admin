@@ -177,8 +177,7 @@ onUnmounted(() => {
         }"
         :src="currentImage"
         preview-disabled
-        :width="600"
-        :height="600"
+        class="h-80vw w-80vw fcc"
         object-fit="scale-down"
         :on-load="handleImageLoadSuccess"
         :fallback-src="Logo"

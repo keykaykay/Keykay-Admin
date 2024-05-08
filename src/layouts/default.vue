@@ -34,7 +34,7 @@ watch(route, () => {
       }"
     >
       <LayoutHeader :wrap-ref="wrapRef" />
-      <LayoutTab />
+      <LayoutTab v-if="appStore.themeSettings.showTabBar" />
       <n-layout-content
         class="flex-1 p-2"
         :native-scrollbar="false"
@@ -46,13 +46,15 @@ watch(route, () => {
         <router-view v-slot="{ Component }">
           <transition
             name="fade"
-            enter-active-class="animate__animated animate__fadeInRight"
+            mode="out-in"
+            :enter-active-class="`animate__animated ${appStore.themeSettings.animateType}`"
             appear
           >
             <component :is="Component" />
           </transition>
         </router-view>
       </n-layout-content>
+      <LayoutFooter v-if="appStore.themeSettings.showFooter" />
     </n-layout>
   </n-layout>
 </template>

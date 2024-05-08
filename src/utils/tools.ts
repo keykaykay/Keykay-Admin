@@ -3,7 +3,6 @@ import type { MenuOption } from 'naive-ui'
 import generatedRoutes from 'virtual:generated-pages'
 import Lodash from 'lodash-es'
 import { ECHARTS_COLOR } from '@/utils/constants'
-import router from '@/router'
 
 export function iconComp(icon: string) {
   return h('div', { class: icon })

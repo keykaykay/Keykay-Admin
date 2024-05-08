@@ -1,10 +1,9 @@
 import type { MenuOption } from 'naive-ui'
 import { nanoid } from 'nanoid'
-import dayjs from 'dayjs'
 import { getMenus, handleRouteToMenu } from '@/utils/tools'
 import router from '@/router'
 import { localCacheStorage } from '@/utils/storage'
-import { getThemeSettings } from '@/utils/settings'
+import { getThemeSettings, resetThemeSetting } from '@/utils/settings'
 
 interface IApp {
   collapsed: boolean
@@ -19,7 +18,7 @@ export const useAppStore = defineStore({
     collapsed: false,
     tabsList: [],
     activeKey: '',
-    themeSettings: getThemeSettings(),
+    themeSettings: resetThemeSetting(),
   }),
   getters: {
     menuOptions(): MenuOption[] {
@@ -35,14 +34,11 @@ export const useAppStore = defineStore({
       })
     },
     updateThemeSettings(val: string) {
-      const originThemeSettings = this.themeSettings
-      this.themeSettings = getThemeSettings(val)
-      this.themeSettings.inverted = originThemeSettings.inverted
-      this.themeSettings.menuMode = originThemeSettings.menuMode
+      this.themeSettings = getThemeSettings(val, this.themeSettings)
       this.updateCssVars()
     },
     resetTheme() {
-      this.themeSettings = getThemeSettings()
+      this.themeSettings = resetThemeSetting()
       this.updateCssVars()
       const isDark = useDark()
       isDark.value = false

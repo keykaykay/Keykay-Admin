@@ -30,6 +30,14 @@ export function useTheme() {
     immediate: true,
   })
 
+  watch(() => appStore.themeSettings.grayMode, () => {
+    const htmlEl = document.querySelector('html')!
+    // 添加class名
+    htmlEl.classList.toggle('grayscale', appStore.themeSettings.grayMode)
+  }, {
+    immediate: true,
+  })
+
   return {
     configTheme,
     themeOverrides,

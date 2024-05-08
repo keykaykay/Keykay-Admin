@@ -35,7 +35,6 @@ const tableOption = ref<ITableOption<HH, IPaginationProps>>({
               previewImages.value = rawPreviewImages
               previewIndex.value = idx
               previewShow.value = true
-              window.$message.success('fsfdsafds')
             }}
           />
         )

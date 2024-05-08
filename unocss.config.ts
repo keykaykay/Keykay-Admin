@@ -50,6 +50,7 @@ export default defineConfig({
     'bg-#5b4947',
     'bg-#7ba3a8',
     'flex!',
+    'grayscale',
   ],
   shortcuts: {
     'fcc': 'flex items-center justify-center',
