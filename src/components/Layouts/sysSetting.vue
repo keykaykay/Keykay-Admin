@@ -27,7 +27,6 @@ const debounceUpdateThemeColor = _.debounce(handleUpdateThemeColor)
     :on-update-show="closeDrawerEvent"
     :width="280"
     placement="right"
-    :native-scrollbar="true"
   >
     <n-drawer-content title="主题配置" :native-scrollbar="false">
       <n-divider title-placement="center">

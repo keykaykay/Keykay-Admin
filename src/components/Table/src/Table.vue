@@ -154,7 +154,7 @@ function handleScrollX() {
 
 function handleFixed(fixed: 'left' | 'right' | undefined, el: TCheckbox) {
   el.fixed = fixed
-  console.log(el)
+  // console.log(el)
 }
 
 watch([isMobile, tableRef], () => {
@@ -570,12 +570,12 @@ function handleSearchCollapsed() {
         v-bind="props"
         class="h-full w-full flex-1"
         max-height="100%"
-        flex-height
+
         :single-line="false"
         :columns="columns"
         :scroll-x="scrollX"
         :row-props="rowProps || handleRowProps"
-        remote
+        remote flex-height
         :virtual-scroll="virtualScroll"
         :on-update:sorter="handleSorterChange"
         @update:sorter="handleSorterChange"
