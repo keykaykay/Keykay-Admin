@@ -21,6 +21,7 @@ export default defineConfig({
   safelist: [
     'i-mdi:view-dashboard',
     'i-mdi:account',
+    'i-gridicons:notice',
     'text-white',
     'color-#70a1ff',
     'text-#5ab1ef',

@@ -1,21 +1,34 @@
 <script lang="ts" setup>
-import generatedRoutes from 'virtual:generated-pages'
 import { useMobile } from '@/hooks/useDevice'
 import { useAppStore } from '@/store/app'
+import { getMenus } from '@/utils/tools'
+
+const visible = defineModel<boolean>('show', { required: true })
 
 const { isMobile } = useMobile()
 const appStore = useAppStore()
 const router = useRouter()
-const rawRoutes = generatedRoutes.filter(item => item.meta?.layout === 'default' || !item.meta?.layout).filter(item => !item.path!.includes(':all(.*)*') && !item.path!.includes('/redirect/:path(.*)')) as AppRouteRecordRaw[]
+const rawRoutes: AppRouteRecordRaw[] = []
 
-const visible = defineModel<boolean>('show', { required: true })
+function handleMenuData(raws: AppRouteRecordRaw[]) {
+  raws.forEach((item) => {
+    if (item?.children?.length === 0)
+      rawRoutes.push(item)
+    else
+      handleMenuData(item.children)
+  })
+}
+
+const { menuDatas } = getMenus()
+
+handleMenuData(menuDatas)
+
 const keyword = ref('')
 const resultOptions = ref<AppRouteRecordRaw[]>([])
 const activePath = ref<string>(appStore.activeKey)
 
 function handleClose() {
   visible.value = false
-  // handle with setTimeout to prevent user from seeing some operations
   setTimeout(() => {
     resultOptions.value = []
     keyword.value = ''

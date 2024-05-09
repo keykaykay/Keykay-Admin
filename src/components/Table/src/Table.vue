@@ -154,7 +154,6 @@ function handleScrollX() {
 
 function handleFixed(fixed: 'left' | 'right' | undefined, el: TCheckbox) {
   el.fixed = fixed
-  // console.log(el)
 }
 
 watch([isMobile, tableRef], () => {
@@ -480,7 +479,7 @@ function handleSearchCollapsed() {
                 </template>
                 <span>导出</span>
               </n-tooltip>
-              <n-popover v-if="!hiddenHeaderRight?.setting" trigger="click">
+              <n-popover v-if="!hiddenHeaderRight?.setting" placement="bottom" trigger="click">
                 <template #trigger>
                   <n-tooltip trigger="hover" placement="bottom">
                     <template #trigger>
@@ -491,11 +490,6 @@ function handleSearchCollapsed() {
                 </template>
                 <n-scrollbar class="max-h-300px w-200px">
                   <div class="w-full">
-                    <div class="my-1 w-full flex items-center justify-end">
-                      <n-button size="tiny" strong secondary type="primary">
-                        重置
-                      </n-button>
-                    </div>
                     <VueDraggable v-model="chooseColumnsRaw" :animation="300">
                       <template v-for="element in chooseColumnsRaw" :key="element.key">
                         <div
@@ -570,13 +564,14 @@ function handleSearchCollapsed() {
         v-bind="props"
         class="h-full w-full flex-1"
         max-height="100%"
-
         :single-line="false"
         :columns="columns"
         :scroll-x="scrollX"
         :row-props="rowProps || handleRowProps"
-        remote flex-height
+        remote
+        flex-height
         :virtual-scroll="virtualScroll"
+        :loading="tableLoading"
         :on-update:sorter="handleSorterChange"
         @update:sorter="handleSorterChange"
         @update:checked-row-keys="handleRowCheck"

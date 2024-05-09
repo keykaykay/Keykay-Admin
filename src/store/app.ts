@@ -63,9 +63,15 @@ export const useAppStore = defineStore({
         content: '确定退出登录吗？',
         positiveText: '确定',
         negativeText: '取消',
+        positiveButtonProps: {
+          type: 'primary',
+        },
+        icon() {
+          return h('div', {
+            class: 'i-gridicons:notice bg-[var(--k-primary-color)]',
+          })
+        },
         closable: false,
-        closeOnEsc: false,
-        maskClosable: false,
         autoFocus: false,
         onPositiveClick: async () => {
           this.clearTab()

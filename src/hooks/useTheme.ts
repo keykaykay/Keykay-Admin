@@ -11,7 +11,7 @@ export function useTheme() {
 
   appStore.updateThemeSettings(appStore.themeSettings.themeColor)
 
-  watch(isDark, () => {
+  watch(() => [isDark.value, appStore.themeSettings.themeColor], () => {
     const { message, dialog, notification, loadingBar } = createDiscreteApi(
       ['message', 'dialog', 'notification', 'loadingBar'],
       {

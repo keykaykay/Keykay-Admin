@@ -19,6 +19,7 @@ interface HH {
 const tableOption = ref<ITableOption<HH, IPaginationProps>>({
   virtualScroll: true,
   hiddenHeader: false,
+  tableLoading: true,
   hiddenHeaderRight: {},
   hiddenContextmenu: false,
   columns: [
@@ -30,7 +31,7 @@ const tableOption = ref<ITableOption<HH, IPaginationProps>>({
         return (
           <img
             src={`https://picsum.photos/200/200?random=${idx}`}
-            class="aspect-square w-full object-cover"
+            class="aspect-square h-30 object-cover"
             onClick={() => {
               previewImages.value = rawPreviewImages
               previewIndex.value = idx
@@ -49,7 +50,7 @@ const tableOption = ref<ITableOption<HH, IPaginationProps>>({
         const classId = `qr-code-${idx}`
         return (
           <div
-            class="aspect-square w-full fcc"
+            class="m-auto aspect-square h-30"
             onClick={() => {
               const canvas = document
                 .querySelector(`.${classId}`)
@@ -72,43 +73,61 @@ const tableOption = ref<ITableOption<HH, IPaginationProps>>({
       title: '身高',
       align: 'center',
     },
-    {
-      key: 't1',
-      title: 't1',
-      align: 'center',
-    },
-    {
-      key: 't2',
-      title: 't2',
-      align: 'center',
-    },
-    {
-      key: 't3',
-      title: 't3',
-      align: 'center',
-    },
-    {
-      key: 't4',
-      title: 't4',
-      align: 'center',
-    },
-    {
-      key: 't5',
-      title: 't5',
-      align: 'center',
-    },
+    // {
+    //   key: 't1',
+    //   title: 't1',
+    //   align: 'center',
+    // },
+    // {
+    //   key: 't2',
+    //   title: 't2',
+    //   align: 'center',
+    // },
+    // {
+    //   key: 't3',
+    //   title: 't3',
+    //   align: 'center',
+    // },
+    // {
+    //   key: 't4',
+    //   title: 't4',
+    //   align: 'center',
+    // },
+    // {
+    //   key: 't5',
+    //   title: 't5',
+    //   align: 'center',
+    // },
   ],
-  data: Array.from({ length: 100000 }).map((_, index) => ({
-    key: `${index}`,
-    name: `name${index}`,
-    age: index,
-    height: index,
-    t1: index,
-    t2: index,
-    t3: index,
-    t4: index,
-    t5: index,
-  })),
+  data: [],
+  refreshEvent: handleData,
+})
+
+let tempIdx = 0
+function handleData() {
+  tableOption.value.tableLoading = true
+  setTimeout(() => {
+    tableOption.value.data = Array.from({ length: 100 }).map((_, idx) => {
+      const index = tempIdx + idx
+      return {
+        key: `${index}`,
+        name: `name${index}`,
+        age: index,
+        height: index,
+        t1: index,
+        t2: index,
+        t3: index,
+        t4: index,
+        t5: index,
+      }
+    })
+    tableOption.value.tableLoading = false
+    tempIdx += 100
+  }, 1000)
+}
+
+onMounted(() => {
+  handleData()
 })
 </script>
 
@@ -120,9 +139,11 @@ const tableOption = ref<ITableOption<HH, IPaginationProps>>({
 </template>
 
 <route lang="json5">
-  {
-    meta: {
-      title: 'dashboard',
-    }
+{
+  meta: {
+    title: '表格统计',
+    icon: 'i-mdi:file-table-box',
+    order: 2
   }
-  </route>
+}
+</route>

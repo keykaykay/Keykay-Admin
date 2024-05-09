@@ -129,7 +129,7 @@ watch([cmdK, ctrlK], (v) => {
         ]"
         @click="handleChangeCollapse"
       />
-      <n-breadcrumb v-if="appStore.themeSettings.showBreadcrumb && appStore.themeSettings.menuMode === 'left' && !isMobile" class="ml-4">
+      <n-breadcrumb v-if="appStore.themeSettings.showBreadcrumb && appStore.themeSettings.menuMode === 'left' && !isMobile" separator=">" class="ml-4">
         <n-breadcrumb-item v-for="item in breadcrumbData" :key="item.key" @click="() => handleBreadcrumbClick(item as any)">
           {{ item.name }}
         </n-breadcrumb-item>

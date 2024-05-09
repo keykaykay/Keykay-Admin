@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+import { useMobile } from '@/hooks/useDevice'
+
+const { isMobile } = useMobile()
+
 // 切换主题
 const isDark = useDark()
 
@@ -7,7 +11,7 @@ function toggleDark() {
 }
 
 async function toggleTheme(event: MouseEvent, openAnimation: boolean) {
-  if (!openAnimation) {
+  if (!openAnimation || isMobile.value) {
     toggleDark()
     return
   }
