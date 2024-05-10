@@ -78,7 +78,8 @@ function search() {
   resultOptions.value = rawRoutes.filter((menu) => {
     const trimKeyword = keyword.value.toLocaleLowerCase().trim()
     const title = menu.meta?.title || menu.name as string || menu.path as string
-    return trimKeyword && title.includes(trimKeyword)
+    const name = menu.name as string
+    return trimKeyword && (title.includes(trimKeyword) || name.includes(trimKeyword))
   })
 }
 

@@ -22,6 +22,7 @@ export default defineConfig({
     'i-mdi:view-dashboard',
     'i-mdi:account',
     'i-gridicons:notice',
+    'i-mdi:file-table-box',
     'text-white',
     'color-#70a1ff',
     'text-#5ab1ef',

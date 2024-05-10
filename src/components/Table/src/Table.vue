@@ -8,7 +8,7 @@ import type {
   FormRules,
 } from 'naive-ui'
 import { NDataTable, NForm, NInput, NSelect } from 'naive-ui'
-import Excel from 'exceljs'
+import { Workbook } from 'exceljs'
 import imageToBase64 from 'image-to-base64/browser'
 import type { IFormData, IModalData, ITableProps, TCheckbox, TDataColumn, TInternalRowData } from '../types'
 import { useMobile } from '@/hooks/useDevice'
@@ -107,7 +107,7 @@ async function handleRowCheck(rowKeys: DataTableRowKey[]) {
     if (target)
       targetDatas.push(target)
   })
-  const workbook = new Excel.Workbook()
+  const workbook = new Workbook()
   const sheet = workbook.addWorksheet('test111')
   sheet.columns = [
     { header: '名称', key: 'name' },

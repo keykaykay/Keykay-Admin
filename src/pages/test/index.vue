@@ -11,7 +11,7 @@
   meta: {
     title: '测试',
     icon: 'i-mdi:view-dashboard',
-    order: 2
+    order: 3
   }
 }
 </route>

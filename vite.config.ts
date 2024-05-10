@@ -81,5 +81,8 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         },
       },
     },
+    build: {
+      chunkSizeWarningLimit: 1500,
+    },
   }
 }
