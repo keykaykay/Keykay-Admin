@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    404: typeof import('./../components/SVG/src/404.vue')['default']
     AppProvider: typeof import('./../components/AppProvider/src/AppProvider.vue')['default']
     Charts: typeof import('./../components/Charts/src/Charts.vue')['default']
     Header: typeof import('./../components/Table/src/Header.vue')['default']

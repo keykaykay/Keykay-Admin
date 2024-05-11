@@ -1,6 +1,6 @@
 import type { MenuOption } from 'naive-ui'
 import { nanoid } from 'nanoid'
-import { getMenus, handleRouteToMenu } from '@/utils/tools'
+import { getFlatMenus, getMenus, handleRouteToMenu } from '@/utils/tools'
 import router from '@/router'
 import { localCacheStorage } from '@/utils/storage'
 import { getThemeSettings, resetThemeSetting } from '@/utils/settings'
@@ -88,6 +88,9 @@ export const useAppStore = defineStore({
       this.activeKey = key.replace('/redirect', '')
     },
     async addTabs(route: AppRouteRecordRaw) {
+      const flatMenus = getFlatMenus()
+      if (!flatMenus.some(item => item.path === route.path))
+        return
       if (
         !this.tabsList.some(item => item.path === route.path) && !(route.path || '').includes('/redirect')
       ) {

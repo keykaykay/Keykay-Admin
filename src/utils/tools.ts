@@ -124,6 +124,23 @@ export function getMenus() {
   }
 }
 
+export function getFlatMenus() {
+  const rawRoutes: AppRouteRecordRaw[] = []
+  function handleMenuData(raws: AppRouteRecordRaw[]) {
+    raws.forEach((item) => {
+      if (item?.children?.length === 0)
+        rawRoutes.push(item)
+      else
+        handleMenuData(item.children)
+    })
+  }
+
+  const { menuDatas } = getMenus()
+
+  handleMenuData(menuDatas)
+
+  return rawRoutes
+}
 /**
  * 从预定义的颜色列表中生成随机颜色，并每2.5秒更新一次。
  * @returns 随机颜色的响应式引用。

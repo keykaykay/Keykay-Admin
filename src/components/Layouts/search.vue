@@ -1,27 +1,14 @@
 <script lang="ts" setup>
 import { useMobile } from '@/hooks/useDevice'
 import { useAppStore } from '@/store/app'
-import { getMenus } from '@/utils/tools'
+import { getFlatMenus } from '@/utils/tools'
 
 const visible = defineModel<boolean>('show', { required: true })
 
 const { isMobile } = useMobile()
 const appStore = useAppStore()
 const router = useRouter()
-const rawRoutes: AppRouteRecordRaw[] = []
-
-function handleMenuData(raws: AppRouteRecordRaw[]) {
-  raws.forEach((item) => {
-    if (item?.children?.length === 0)
-      rawRoutes.push(item)
-    else
-      handleMenuData(item.children)
-  })
-}
-
-const { menuDatas } = getMenus()
-
-handleMenuData(menuDatas)
+const rawRoutes: AppRouteRecordRaw[] = getFlatMenus()
 
 const keyword = ref('')
 const resultOptions = ref<AppRouteRecordRaw[]>([])

@@ -66,7 +66,7 @@ watch(() => route.path, () => {
       result.push(itemTarget)
     }
   }
-  run([target])
+  target && run([target])
   breadcrumbData.value = result as any
 }, {
   immediate: true,
