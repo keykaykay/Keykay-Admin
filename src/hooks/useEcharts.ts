@@ -28,7 +28,7 @@ export function useEcharts(
     useEventListener(window, 'resize', resizeFn)
   }
 
-  function setOptions(options: EChartsOption, clear = false) {
+  function setOptions(options: EChartsOption, clear = true) {
     cacheOptions.value = {
       color: ECHARTS_COLOR,
       backgroundColor: 'transparent',
@@ -48,9 +48,7 @@ export function useEcharts(
             return
         }
         clear && chartInstance?.clear()
-
         chartInstance?.setOption(unref(getOptions))
-        resize()
       }, 30)
     })
   }

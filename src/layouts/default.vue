@@ -43,7 +43,7 @@ watch(route, () => {
           height: '100%',
         }"
       >
-        <router-view v-slot="{ Component }">
+        <router-view v-slot="{ Component }" :key="appStore.refreshKey">
           <transition
             name="fade"
             mode="out-in"

@@ -10,6 +10,7 @@ interface IApp {
   tabsList: AppRouteTab[]
   activeKey: string
   themeSettings: App.ThemeSetting
+  refreshKey: string
 }
 
 export const useAppStore = defineStore({
@@ -19,6 +20,7 @@ export const useAppStore = defineStore({
     tabsList: [],
     activeKey: '',
     themeSettings: resetThemeSetting(),
+    refreshKey: nanoid(),
   }),
   getters: {
     menuOptions(): MenuOption[] {

@@ -4,7 +4,9 @@ import { NMenu } from 'naive-ui'
 import { useAppStore } from '@/store/app'
 import { VITE_APP_TITLE } from '@/utils/constants'
 import { useMobile } from '@/hooks/useDevice'
+import { getFlatMenus } from '@/utils/tools'
 
+const flatMenus = getFlatMenus()
 const menuInstRef = ref<MenuInst | null>(null)
 const router = useRouter()
 const appStore = useAppStore()
@@ -18,6 +20,50 @@ watch(refreshExpand, () => {
 }, {
   immediate: true,
 })
+
+const route = useRoute()
+const defaultExpandedKeys = ref<string[]>([])
+function handleDefaultExpandKeys() {
+  const targetItem = flatMenus.find(item => item.path === route.path)
+
+  if (!targetItem)
+    return
+
+  const paths = targetItem.pid!.split('/')
+
+  const res: string[] = []
+  function run(arr: string[]) {
+    res.push(arr.join('/'))
+    arr.pop()
+    if (arr.length > 0)
+      run(arr)
+  }
+
+  run(paths)
+
+  defaultExpandedKeys.value = res.filter(Boolean)
+}
+handleDefaultExpandKeys()
+
+function handleItemClick(key: string) {
+  const targetItem = flatMenus.find(item => item.path === key)!
+  if (targetItem.pid === '/')
+    defaultExpandedKeys.value = []
+
+  appStore.handleMenuItemClick(key)
+}
+function handleExpandedKeys(keys: string[]) {
+  if (keys.length > 0) {
+    const lastKey = keys.pop()!
+    const idx = keys.findIndex(item => lastKey.includes(item))
+    if (idx === -1)
+      keys = [lastKey]
+    else
+      keys.push(lastKey)
+
+    defaultExpandedKeys.value = keys
+  }
+}
 </script>
 
 <template>
@@ -41,6 +87,7 @@ watch(refreshExpand, () => {
     <NMenu
       ref="menuInstRef"
       :inverted="inverted"
+      :default-expanded-keys="defaultExpandedKeys"
       :collapsed-width="64"
       :collapsed-icon-size="22"
       :indent="28"
@@ -48,7 +95,9 @@ watch(refreshExpand, () => {
       :options="appStore.menuOptions"
       accordion
       :value="appStore.activeKey"
-      @update:value="(key) => appStore.handleMenuItemClick(key)"
+      :watch-props="['defaultExpandedKeys']"
+      @update:value="handleItemClick"
+      @update:expanded-keys="handleExpandedKeys"
     />
   </div>
 </template>

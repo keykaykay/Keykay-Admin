@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import _ from 'lodash-es'
+import { nanoid } from 'nanoid'
 import { useAppStore } from '@/store/app'
 
 const props = defineProps<{
@@ -19,6 +20,15 @@ function handleUpdateThemeColor(val: string) {
 }
 
 const debounceUpdateThemeColor = _.debounce(handleUpdateThemeColor)
+
+const debounceRefreshPage = _.debounce(() => {
+  // 刷新页面
+  appStore.refreshKey = nanoid()
+})
+
+watch(() => appStore.themeSettings, debounceRefreshPage, {
+  deep: true,
+})
 </script>
 
 <template>

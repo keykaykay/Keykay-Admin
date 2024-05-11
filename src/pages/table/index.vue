@@ -63,7 +63,8 @@ const tableOption = ref<ITableOption<HH, IPaginationProps>>({
               }
             }}
           >
-            <n-qr-code class={classId} color={isDark.value ? '#fff' : '#000'} icon-background-color="#f3f4f6e0" icon-size={30} icon-src={Logo} value={classId} background-color="#ffffff00" />
+            <n-qr-code color={isDark.value ? '#fff' : '#000'} icon-background-color="#f3f4f6e0" icon-size={30} icon-src={Logo} value={classId} background-color="#ffffff00" />
+            <n-qr-code class={`${classId} hidden`} color="#fff" icon-background-color="#f3f4f6e0" icon-size={30} icon-src={Logo} value={classId} background-color="#ffffff00" />
           </div>
         )
       },
