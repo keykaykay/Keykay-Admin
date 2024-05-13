@@ -1,9 +1,17 @@
-# Vue 3 + TypeScript + Vite
+<div align="center">
+	<img src="./public/logo.svg" width="160" />
+	<h1>Keykay Admin</h1>
+</div>
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+---
 
-## Recommended Setup
+> [!NOTE]
+> 如果您觉得 `Keykay Admin`对您有所帮助，或者您喜欢我们的项目，请在 GitHub 上给我们一个 ⭐️。您的支持是我们持续改进和增加新功能的动力！感谢您的支持！
 
-- [VS Code](https://code.visualstudio.com/) + [Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (previously Volar) and disable Vetur
+## 简介
 
-- Use [vue-tsc](https://github.com/vuejs/language-tools/tree/master/packages/tsc) for performing the same type checking from the command line, or for generating d.ts files for SFCs.
+`Keykay Admin` 是一个后台管理模板，技术栈包括 Vue3, Vite5, TypeScript, Pinia 和 UnoCSS。内置了主题配置和组件，实现了自动化的文件路由系统。
+
+## 开源协议
+
+项目基于 [MIT © 2021 Keykay](./LICENSE) 协议，仅供学习参考，商业使用请保留作者版权信息，作者不保证也不承担任何软件的使用风险。

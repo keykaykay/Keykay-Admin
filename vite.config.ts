@@ -79,6 +79,16 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           changeOrigin: true,
           rewrite: path => path.replace(/^\/api/, ''),
         },
+        '/images-api': {
+          target: 'http://127.0.0.1:1337/images-api',
+          changeOrigin: true,
+          rewrite: path => path.replace(/^\/api/, ''),
+        },
+        'ws://api': {
+          target: 'ws://127.0.0.1:1338',
+          changeOrigin: true,
+          rewrite: path => path.replace(/^\/api/, ''),
+        },
       },
     },
     build: {
